@@ -1,0 +1,62 @@
+{% extends "base/index.html" %}
+{% load staticfiles %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static "forum/forum.css" %}">
+{% endblock css %}
+
+{% block script %}
+{{ block.super }}
+<script>
+$( document ).ready(function()
+{
+	$( "nav" ).find( "a" ).removeClass("active");
+	$( "#Forum" ).addClass("active");
+});
+</script>
+{% endblock script %}
+
+{% block title %}
+<title>Forum</title>
+{% endblock title %}
+
+{% block content %}
+
+<div class="container_12 clearfix">
+	<div class="row text-center">
+		<h2>FORUM</h2>
+	</div>
+	{% if user.is_authenticated %}
+	<div class="row">
+		<div class="col-md-offset-10" style="margin-bottom: 20px">
+			<a href="create_topic" class="btn btn-white">Créer un nouveau sujet</a>
+		</div>
+	</div>
+	{% endif %}
+		{% for topic in topics_list %}
+		<div class="row">
+			<a href="topic/{{ topic.topic.id }}">
+			<div class="topic">
+				<div class="first-line">
+					<div class="title"><p class="text-forum">{{ topic.topic.title }}</p></div>
+					{% if topic.nb_messages > 1 %}
+					<div class="nb-messages"><p>{{ topic.nb_messages }} messages</p></div>
+					{% else %}
+					<div class="nb-messages"><p>{{ topic.nb_messages }} message</p></div>
+					{% endif %}
+					<div class="last-message"><p class="text-forum">Dernier message par <b>{{ topic.last_message.author.username }}</b></p></div>
+				</div>
+				<div class="second-line">
+					<div class="author-date"><p class="text-forum">Par <b>{{ topic.topic.author.username }}</b> le <b>{{ topic.topic.date|date:'d-m-Y' }}</b> à <b>{{ topic.topic.date|date:'H:i' }}</b></p></div>
+					<div class="last-message-date"><p class="text-forum">  le <b>{{ topic.last_message.date|date:'d-m-Y' }}</b> à <b>{{ topic.last_message.date|date:'H:i' }}</b></p></div>
+				</div>
+			</div>
+			</a>
+		</div>
+		{% endfor %}
+<br>
+</div>
+{% endblock %}
+
+

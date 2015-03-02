@@ -1,0 +1,50 @@
+{% extends "base/index.html" %}
+{% load staticfiles %}
+{% load sekizai_tags %}
+
+{% block title %}
+    <title>Administration</title>
+{% endblock title %}
+
+{% block content %}
+<div class="container_12 clearfix">
+    <div class="panel panel-default" style="padding-top: 10px">
+        <div class="row-item clearfix">
+            <h2> PROJETS</h2>
+        </div>
+        <div class="row-item clearfix" style="margin-top:10px; margin-bottom:5px">
+            <div class="col-md-4 text-center">
+                <h4>PROJET<h4>
+            </div>
+            <div class="col-md-4 text-center">
+                <h4>STATUT</h4>
+            </div>
+            <div class="col-md-4 text-center">
+                <h4>ACTIONS</h4>
+            </div>
+        </div>
+        {% for project in projects %}
+            <div class="row-item clearfix" style="margin-bottom:10px">
+                <div class="col-md-4 text-center">
+                    <a href="{% url 'project.views.details' project.id %}"><p>{{ project.title }}</a>
+                </div>
+                  <div class="col-md-4 text-center">
+                    <p>{{ project.get_state_display }}</p>
+                </div>
+                    <div class="col-md-4 text-center">
+                    {% if project.state == '1' %}
+                        <a class="btn btn-white" href="{% url 'project.admin.project_action' project.id '4' %}" style="margin-right:5px">METTRE EN PAUSE</a><a class="btn btn-red" href="{% url 'project.admin.project_action' project.id '0' %}">ANNULER</a>
+                    {% elif project.state == '4' %}
+                        <a class="btn btn-simple-green" href="{% url 'project.admin.project_action' project.id '1' %}" style="margin-right:5px">VALIDER</a><a class="btn btn-red" href="{% url 'project.admin.project_action' project.id '0' %}">ANNULER</a>
+                    {% elif project.state == '0' %}
+                        <a class="btn btn-simple-green" href="{% url 'project.admin.project_action' project.id '1' %}">VALIDER</a>
+                    {% else %}
+                        Aucune action disponible.
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

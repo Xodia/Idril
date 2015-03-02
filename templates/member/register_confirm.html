@@ -1,0 +1,16 @@
+{% extends "member/member.html" %}
+
+{% block title %}
+<title>Validation enregistrement</title>
+{% endblock title %}
+
+{% block content %}
+<hr>
+{% if error == True %}
+<p id="error_msg">{{ error_message }}</p>
+{% elif success == True %}
+<p id="success_msg">{{ success_message }}</p>
+<p><a href="/member/">S'identifier</a></p>
+{% endif %}
+<hr>
+{% endblock content %}

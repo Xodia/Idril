@@ -1,0 +1,147 @@
+{% extends "base/index.html" %}
+{% load staticfiles %}
+
+{% block title %}
+    <title>Paiement</title>
+{% endblock title %}
+{% block content %}
+<div class="container_12 clearfix">
+    <div class="panel panel-default">
+        <h1>Informations du paiement</h1><br/>
+        
+        <h2>{{ project.title|title }}</h2>
+        <div class="panel-body">
+        {{ project.content|safe }}
+            <h4>Ma participation:</h4>
+            <h2><span class="label label-success">{{ amount_ttc }} €</span></h2>
+            <h4>Mes contreparties:</h4>
+            {% if gift %}
+              <p>{{ gift.description }}</p>
+            {% else %}
+              <p>Aucune contrepartie selectionnée</p>
+            {% endif %}
+
+        </div>
+
+        <div class="row">
+            <!--     {
+            ExpirationDate: "1015",
+            Alias: "blabla",
+            CardType: "CB_VISA_MASTERCARD",
+            CardProvider: "MASTERCARD",
+            Product: "blabla",
+            BankCode: "blabla",
+            Active: "true",
+            Currency: "EUR",
+            Validity: "INVALID",
+            CreationDate: 1412763278,
+            Tag: "blabla",
+            Id: 7344331
+        },-->
+        <!--
+            {% if cards %}
+                <div class="alert alert-success" role="alert">
+                    {% for card in cards %}
+                        {% if card.Alias %}
+                           <b>{{ card.Alias }} {{ card.Currency }}</b><br/>
+                        {% endif %}
+                    {% endfor %}
+                 </div>
+            {% endif %}
+
+            -->
+        </div>
+        <hr class="soften">
+        <form method="post" action="">
+            <div class="row">
+                <h2 class="text-center"><span class="label label-primary">Mes coordonnées</span></h2><br/>
+                {% if form.errors or messages %}
+                    <div class="alert alert-danger" role="alert">
+                        {% for field in form %}
+                            {% if field.errors %}
+                               <b>{{ field.errors|striptags }}</b><br/>
+                            {% endif %}
+                        {% endfor %}
+                    {% for message in messages %}
+                      <p>{{ message }}</p>
+                    {% endfor %}
+                     </div>
+                {% endif %}
+                        <div class="col-md-4 col-md-offset-2">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{ form.name_owner_card }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.address }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.address2 }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.city }}
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                      {{ form.zip_code }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" style="padding: 3px">
+                                      {{ form.country }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                            {{ form.card_number }}
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                      {{ form.cryptogram }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group" style="padding: 3px">
+                                      {{ form.card_type }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 text-left">
+                                  <label>Date d'expiration</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                      {{ form.expiration_month }}
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                      {{ form.expiration_year }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="amount" value="{{ amount_ht }}" hidden="YES" id="amount"/>
+            </div>
+            <div class="row" style="padding-top: 40px; padding-bottom:40px">
+                <img src="{% static 'base/Frise-HD.png' %}" style="width:750px;height:50px; border: 0"/>
+                <div style="padding-top: 10px">
+                    <img src="{% static 'base/MASTERCARD2.jpeg' %}" style="width:50px;height:30px; border: 0"/>
+                    <img src="{% static 'base/VISA.jpeg' %}" style="width:50px;height:30px; border: 0"/>
+                    <img src="{% static 'base/logo_cb.jpg' %}" style="width:50px;height:30px; border: 0"/>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom:20px">
+                <button type="submit" class="btn btn-white">Suivant</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

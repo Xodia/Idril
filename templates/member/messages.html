@@ -1,0 +1,178 @@
+<div>
+    <h3 class="rs alternate-tab accordion-label">Inbox</h3>
+    <div class="tab-pane accordion-content">
+    <div class="form">
+        <div class="message-action">
+            <a type="button" class="new-message be-fc-orange" data-toggle="modal" data-target="#newMessageModal" data-whatever="">Nouveau message</a>
+        </div>
+         <div class="alert alert-success message-send-alert" style="margin:15px">
+            <a href="#" class="close" data-dismiss="alert">&times;</a>
+            Votre message a été envoyé.
+        </div>
+        <div class="box-list-message">
+            {% if Messages.count == 0 %}
+                <br><p>Aucun message</p>
+            {% else %}
+                {% for message in Messages %}
+                    {% if message.read %}
+                        <div class="message-item row">
+                    {% else %}
+                        <div class="message-item message-unread row">
+                    {% endif %}
+                            <input type="hidden" class="message-id" value="{{ message.id }}"/>
+                            <div class="text-right message-item-action">
+                                <button type="button" class="btn delete-message">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                                <button type="button" class="btn new-message" data-toggle="modal" data-target="#newMessageModal" data-whatever="R">
+                                    <i class="fa fa-reply"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-2">
+                                <h4 class="rs comment-author">
+                                    <a href="#" class="be-fc-orange fw-b username">{{ message.sender.username }}</a>
+                                </h4>
+                                <img class="avatar-message" src="{{ MEDIA_URL }}/{{ message.sender.profile.avatar }}" alt="$USER_NAME">
+                            </div>
+                            <div class="col-md-10 text-left">
+                                <p class="rs comment-content">{{ message.content|safe }}</p>
+                                <p class="rs time-post">Le {{ message.date|date:'d/m/Y' }} à {{ message.date|date:'H:i' }}</p>
+                            </div>
+                        </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    </div>
+</div>
+
+<div class="modal fade message-modal" id="newMessageModal" tabindex="-1" role="dialog" aria-labelledby="newMessageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fermer</span></button>
+            <h4 class="modal-title" id="newMessageModal">Nouveau message</h4>
+        </div>
+        <form id="send-message" enctype="multipart/form-data" action="/member/messages/new_message/" method="POST">{% csrf_token %}
+            <div class="modal-body">
+                  <div class="form-group text-left">
+                    <label for="recipient-name" class="label-profile">Destinataire</label>
+                    {{ NewMessageForm.receiver }}
+                  </div>
+                  <div class="form-group text-left">
+                    <label for="message-text" class="label-profile">Message</label>
+                    {{ NewMessageForm.content }}
+                  </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-black" data-dismiss="modal">Fermer</button>
+                <input type="submit" class="btn btn-white" value="Envoyer"/>
+            </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript"> 
+$( document ).ready(function()
+{
+    $('.message-item').css("margin-left", 0).css("margin-right", 0);
+    $('.message-send-alert').hide();
+
+    var receivers = [];
+    $("#id_receiver").find('option').each(function()
+    {
+        receivers.push($(this).text());
+
+    });
+    console.log(receivers);
+
+    $('.new-message').click(function()
+    {
+        $('.message-modal').find('.form-control').val('');
+    });
+
+    $("#id_receiver").autocomplete(
+    {
+        source:receivers
+    });
+
+    $('#send-message').submit(function()
+    {
+        var success = false;
+        $.ajax(
+        {
+            data: $(this).serialize(), 
+            type: $(this).attr('method'),
+            url: $(this).attr('action'),
+            async:false,
+            success: function(response)
+            { 
+                success=true;
+            }
+        });
+        if (success)
+        {
+            $('.message-modal').modal('toggle');
+            $('.message-send-alert').show();
+            $('.message-send-alert').show(0).delay(5000).hide(0);
+        }
+        return false;
+    });
+
+    $('.message-unread').click(function()
+    {
+        var messageId = $(this).find('.message-id').val();
+        var success = false;
+        $.ajax(
+        {
+            data : {csrfmiddlewaretoken: '{{ csrf_token }}', 'messageId': messageId},
+            type: 'POST',
+            url: '/member/messages/markread/',
+            async: false,
+            success: function(response)
+            {
+                if (response == 'OK')
+                    success = true;
+            },
+            error: function(response, statut, erreur)
+            {
+                alert(response);
+            }
+        });
+        if (success)
+        {
+            $(this).find('.new-message-alert').remove();
+            $(this).removeClass("message-unread");
+            $(this).unbind('click');
+        }
+    });
+
+    $('.delete-message').click(function()
+    {
+        var messageId = $(this).parents().eq(1).find('.message-id').val();
+        var success = false;
+        $.ajax(
+        {
+            data : {csrfmiddlewaretoken: '{{ csrf_token }}', 'messageId': messageId},
+            type: 'POST',
+            url: '/member/messages/delete/',
+            async: false,
+            success: function(response)
+            {
+                if (response == 'OK')
+                   success = true;
+            },
+            error: function(response, statut, erreur)
+            {
+            }
+        });
+        if (success)
+            $(this).parents().eq(1).remove();
+    });
+
+    $('#id_receiver').selectize(
+    {
+    });
+});
+</script>

@@ -1,0 +1,57 @@
+{% extends "base/index.html" %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="container_12 clearfix">
+  <div class="panel panel-default">
+  <h2>Confirmation</h2>
+  <div class="login-form">
+  <table class="table table-condensed">
+    <caption style="color:green;padding-bottom: 10px"><b>Paiement enregistré avec succès !</b></caption>
+        <tbody style="padding: 10px">
+            <tr><th>Pseudo</th><td>{{ new_payment.user.username }}</td></tr>
+            {% if new_payment.bank_info.name_owner_card %}
+            <tr><th>Nom sur la carte</th><td>{{ new_payment.bank_info.name_owner_card }}</td></tr>
+            {% endif %}
+            {% if new_payment.bank_info.address %}
+             <tr><th>Adresse</th><td>{{ new_payment.bank_info.address }}</td></tr>
+            {% endif %}
+            {% if new_payment.bank_info.address2 %}
+            <tr><th>Adresse 2</th><td>{{ new_payment.bank_info.address2 }}</td></tr>
+            {% endif %}
+            {% if new_payment.bank_info.city %}
+            <tr><th>Ville</th><td>{{ new_payment.bank_info.city }}</td></tr>
+            {% endif %}
+            {% if new_payment.bank_info.zip_code %}
+            <tr><th>Code postal</th><td>{{ new_payment.bank_info.zip_code }}</td></tr>
+            {% endif %}
+            {% if new_payment.bank_info.country %}
+            <tr><th>Pays</th><td>{{ new_payment.bank_info.country }}</td></tr>
+            {% endif %}
+            <tr><th>Projet</th><td>{{ new_payment.project.title }}</td></tr>
+            {% if new_payment.gift %}
+               <tr><th>Retribution</th><td>{{ new_payment.gift.name }}</td></tr>
+            {% endif %}
+            <tr><th>Prix</th><td>{{ new_payment.price }} €</td></tr>
+        </tbody>
+    </table>
+  </div>
+</div>
+
+
+     <!--<p>
+        Paiement enregistrée avec success:
+        {% for name, value in new_payment.get_fields %}
+          {% if value %}
+              {% if name == "card_number" %}
+                  {{ name }} => {{ hash_cb }} <br/>
+              {% else %}
+                 {{ name }} => {{ value }} <br/>
+              {% endif %}
+          {% endif %}
+        {% endfor %}
+     </p>-->
+       <a href="{% url 'project.views.details' new_payment.project_id %}" class="btn btn-default btn-lg"  style="color: #FFFFFF;background-color: #04B7A6;border-color: #04B7A6;color: white; margin-bottom: 20px">Retour</a>
+
+    </div>
+{% endblock %}

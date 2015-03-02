@@ -1,0 +1,40 @@
+<div>
+    <h3 class="rs alternate-tab accordion-label">Account</h3>
+    <div class="tab-pane accordion-content">
+        <div class="tab-pane-inside">
+            <div class="project-author pb20">
+                <div class="media">
+                    <div class="thumb-left">
+                        <h3>
+                            <label class="username">{{ user.username }} </label>
+                        </h3>
+                        <img class="avatar" src="{{ MEDIA_URL }}/{{ user.profile.avatar }}" alt="$USER_NAME">
+                    </div>
+                    
+                    <div class="media-body">
+                        <h4 class="rs pb10">
+                            <a href="#" class="be-fc-orange fw-b">
+                                <label class="name">{{ user.last_name }}</label>
+                                <label class="name">{{ user.first_name }}</label>
+                            </a>
+                        </h4>
+                        <p class="rs">
+                            <strong>{{ user.address.city|default:"Non renseigné" }}</strong>
+                        </p><br>
+                        <h4 class="rs pb10">Description</h4>
+                        <p class="rs description">{{ user.profile.description|default:"Non renseigné" }}</p>
+                        <!-- <h4 class="rs pb10"><strong>{{ Projects|length }}</strong> projets</h4> -->
+                        <p>
+                            {% for project in projects %}
+                                <a href="/project/project_{{ project.id }}" class="be-fc-orange fw-b">{{ project.title }}</a> (<a href="/project/project_{{ project.id }}/edit">Modifier</a>)<br>
+                            {% endfor %}
+                        </p> <!-- A linker -->
+
+                        <h4 class="rs pb10">Panier</h4>
+                        <p class="rs description">Votre panier contient {{ Panier }} euros</p> {# {{ Panier }} #}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

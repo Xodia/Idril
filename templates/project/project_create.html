@@ -1,0 +1,315 @@
+{% extends "base/index.html" %}
+{% load staticfiles %}
+{% load sekizai_tags %}
+
+{% block head_extra %}
+    {# {% load url from future %} #}
+    {#<script src="{% url "tinymce-js" "project" %}"></script> {# Oblige de faire comme cela pour load proprement la config tinymce. Par la classe Media dans le forms.py ca ne fonctionne pas proprement (oblige de mettre une URL absolue).#}
+    <script src="/static/project/js/tinymce/tinymce.min.js"></script>
+    <script src="/static/project/js/datepicker/bootstrap-datepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/project/css/datepicker/datepicker.css">
+{% endblock head_extra %}
+
+{% block title %}
+    <title>Projets</title>
+{% endblock title %}
+
+{% block content %}
+    <script>
+        $(function () {
+            manage_gift.get_base();
+            manage_gift.dom_highest = document.getElementById("gifts");
+
+            var today = new Date();
+            var sevendays = new Date(today);
+            var ninetydays = new Date(today);
+            sevendays.setDate(today.getDate()+7);
+            ninetydays.setDate(today.getDate()+90);
+            $('#id_project-end_date').datepicker({format: 'dd/mm/yyyy', startDate: sevendays, endDate: ninetydays});
+        });
+        tinymce.init({
+            selector: '#id_project-content',
+        });
+    </script>
+
+    <div class="container_12 clearfix start-project">
+        
+        <label class="step-title">ETAPE 1</label><label class="step-detail">- Le Projet</label>
+        <form action="" method="post" class="form form-start-project" enctype="multipart/form-data" >{% csrf_token %}
+            <div class="project-description">
+                {{ project_form.non_field_errors }}
+                <div class="row-item clearfix">
+                    <div class="col-md-2 text-right">
+                        <label class="label-project" for="txt_last_name">TITRE</label><span class="mandatory-field">*</span>
+                    </div>
+                    <div class="col-md-9 text-left">
+                            {{ project_form.title }}
+                        <div class="col-md-8 text-center">
+                            {{ project_form.title.errors }}
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="row-item clearfix">
+                    <div class="col-md-2 text-right">
+                        <label class="label-project" for="txt_last_name">DESCRIPTION COURTE</label><span class="mandatory-field">*</span>
+                    </div>
+                    <div class="col-md-9 text-left">
+                        {{ project_form.short_description }}
+                        <div class="col-md-8 text-center">
+                            {{ project_form.short_description.errors }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-item clearfix">
+                    <div class="col-md-2 text-right">
+                        <label class="label-project" for="txt_last_name">DESCRIPTION</label><span class="mandatory-field">*</span>
+                    </div>
+                    <div class="col-md-9 text-left">
+                       {{ project_form.content }}
+                        <div class="col-md-8 text-center">
+                            {{ project_form.content.errors }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-item clearfix">
+                    <div class="col-md-2 text-right">
+                        <label class="label-project" for="txt_last_name">IMAGE D'EN TETE</label><span class="mandatory-field">*</span>
+                    </div>
+                    <div class="col-md-3 text-left">
+                        <div class="btn btn-white upload-button">
+                            <span>Ajouter une image</span>
+                        </div>
+                       {{ project_form.header }}
+                        <div class="col-md-8 text-center">
+                            {{ project_form.header.errors }}
+                        </div>
+                    </div>
+                    <div class="col-md-7 text-left">
+                            <img id="project-img" src="" alt="" width="200" height="150" />
+                            <a id="delete-project-img" href="#" style="display:none;">Supprimer</a>
+                    </div>
+                    <div>
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" id="projectImg">
+                    </div>
+                </div>
+
+                <div class="row-item clearfix">
+                    <div class="col-md-2 text-right">
+                        <label class="label-project" for="txt_last_name">MONTANT REQUIS</label><span class="mandatory-field">*</span>
+                    </div>
+                    <div class="col-md-9 text-left">
+                       {{ project_form.amount_required }}
+                        <div class="col-md-8 text-center">
+                            {{ project_form.amount_required.errors }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-item clearfix">
+                    <div class="col-md-2 text-right">
+                        <label class="label-project" for="txt_last_name">CATEGORIE</label><span class="mandatory-field">*</span>
+                    </div>
+                    <div class="col-md-9 text-left">
+                       <select id="id_project-category" name="project-category">
+                            <option value="" selected="selected">----</option>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="col-md-8 text-center">
+                            {{ project_form.category.errors }}
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="row-item clearfix">
+                    <div class="col-md-2 text-right">
+                        <label class="label-project" for="txt_last_name">DATE DE FIN</label><span class="mandatory-field">*</span>
+                    </div>
+                    <div class="col-md-9 text-left">
+                       {{ project_form.end_date }}
+                        <span class="help-block">Un projet peut durer au minimum 7 jours, et au maximum 90 jours.</span>
+                        <div class="col-md-8 text-center">
+                            {{ project_form.end_date.errors }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <label class="step-title">ETAPE 2</label><label class="step-detail">- Les Contreparties </label>
+            <div class="gifts form form-start-project">
+            <span id="gifts">
+                {{ gift_formset.management_form }}
+
+                {% for gift_form in gift_formset.forms %}
+                <section id="wrap-gift-0">
+                    <div class="row-item clearfix">
+                        <div class="col-md-2 text-right">
+                            <label for="id_gift-0-name" class="label-project">INTITULÉ</label><span class="mandatory-field">*</span>
+                        </div>
+                        <div class="col-md-9 text-left">
+                            {{ gift_form.name }}
+                        </div>
+                    </div>
+                    <div class="row-item clearfix">
+                        <div class="col-md-2 text-right">
+                            <label for="id_gift-0-description" class="label-project">DESCRIPTION</label><span class="mandatory-field">*</span>
+                        </div>
+                        <div class="col-md-9 text-left">
+                            {{ gift_form.description }}
+                        </div>
+                    </div>
+                    <div class="row-item clearfix">
+                        <div class="col-md-2 text-right">
+                            <label for="id_gift-0-amount_required" class="label-project">PRIX</label><span class="mandatory-field">*</span>
+                        </div>
+                        <div class="col-md-9 text-left">
+                            {{ gift_form.amount_required }}
+                        </div>
+                    </div>
+                    <div class="row-item clearfix">
+                        <div class="col-md-2 text-right">
+                            <label for="id_gift-0-max_amount" class="label-project">ÉLÉMENTS DISPO.</label>
+                        </div>
+                        <div class="col-md-9 text-left">
+                            {{ gift_form.max_amount }}
+                            <span class="help-block">Laisser vide si il n'y a pas de limites.</span>
+                        </div>
+                    </div>
+                    <a href="javascript:void(0)" class="btn btn-white" id="delete-{{ gift_form.prefix }}" onclick="manage_gift.delete_gift(this)">Supprimer</a>
+                    <hr>
+                </section>
+                {% endfor %}
+            </span>
+                 <div class="row" style="padding-bottom:7px">
+                    <a id="add-gift" class="btn btn-green" onclick="manage_gift.add_gift(this)">Ajouter un cadeau</a>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom:20px; padding-top:20px">
+                <button type="submit" class="btn btn-white">Soumettre le projet</button>
+            </div>
+        </form>
+    </div>
+
+
+<script>
+function readURL(input)
+{
+    if (input.files && input.files[0])
+    {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#projectImg').attr('style', 'max-width:400px; max-height:200px; width:auto; height:auto;');
+            $('#projectImg').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#inputProjectImg").change(function() {
+    readURL(this);
+});
+
+
+a = null;
+var manage_gift = 
+{
+    dom_highest: null,
+    base: null,
+    gifts: [],
+    add_gift: function()
+    {
+        var last_elem = document.getElementById("wrap-gift-" + (this.get_total() - 1)); // -1 because index starts at 0.
+        var new_elem = this.base.cloneNode(true);
+        var total = this.get_total();
+
+        new_elem.innerHTML = this.base.innerHTML.replace(/gift-0/g, "gift-" + total); // No -1 because it is the new one.
+        if (last_elem === null) // We have no gifts.
+            last_elem = this.dom_highest;
+        last_elem.parentNode.insertBefore(new_elem, last_elem.nextSibling);
+        // We can't access outerHTML before inserting.
+        // We need to replace the outer to replace the span element.
+        new_elem.outerHTML = new_elem.outerHTML.replace(/gift-0/, "gift-" + total);
+        $('#delete-gift-' + (this.get_total() - 1)).hide(); // We can just delete the last gift, browser limitation. If we delete one gift ine the middle of others, the browser empties all fields of the gifts below the deleted one.
+        this.update_total(true);
+        this.gifts.push(last_elem.nextSibling);
+
+        return false;
+    },
+    delete_gift: function(e)
+    {
+        for (var i = this.gifts.length; i--;) // Remove gift from "gifts" array.
+            if(this.gifts[i] === e.parentNode)
+                this.gifts.splice(i, 1);
+        e.parentNode.remove();
+        this.update_total(false);
+        this.update_indexes();
+        $('#delete-gift-' + (this.get_total() - 1)).show(); // We can just delete the last gift, browser limitation. If we delete one gift ine the middle of others, the browser empties all fields of the gifts below the deleted one.
+
+        return false;
+    },
+    // Indexes must be contiguous (gift-0, gift-1, etc...), if not, gift will not be saved.
+    update_indexes: function()
+    {
+        for (var i = 0, l = this.gifts.length; i < l; ++i)
+            if (this.gifts[i].id !== "wrap-gift-" + i)
+            {
+                this.gifts[i].id = "wrap-gift-" + i;
+                this.gifts[i].innerHTML = this.gifts[i].innerHTML.replace(/(gift-[0-9]+)-/g, "gift-" + i + "-");
+            }
+    },
+    get_base: function()
+    {
+        var first_gift = document.getElementById("wrap-gift-0");
+
+        this.gifts.push(first_gift);
+        this.base = first_gift.cloneNode(true);
+    },
+    get_total: function()
+    {
+        return document.getElementById("id_gift-TOTAL_FORMS").value;
+    },
+    update_total: function(add)
+    {
+        var elem = document.getElementById("id_gift-TOTAL_FORMS");
+
+        elem.value = parseInt(elem.value) + (add == true ? 1 : -1);
+    },
+};
+
+$('.upload-button').click(function()
+{
+    $('#inputProjectImg').trigger('click');
+});
+
+function readURL(input)
+{
+    if (input.files && input.files[0])
+    {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#project-img').attr('src', e.target.result);
+            $("#delete-project-img").show();
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$("#inputProjectImg").change(function()
+{
+    readURL(this);
+});
+
+$("#delete-project-img").click(function(event)
+{
+    $('#project-img').attr('src', '');
+    $(this).hide();
+});
+</script>
+{% endblock content %}

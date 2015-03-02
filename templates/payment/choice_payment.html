@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% extends "base/index.html" %}
+{% load staticfiles %}
+<html>
+<head>
+    <title>Choix du type de paiement</title>
+</head>
+<body>
+{% block content %}
+    <div class="jumbotron">
+     <h1>Choix du type de paiement</h1><br/>
+
+        <table border="0" style="border-collapse: inherit; margin: 0 auto; border-spacing: 55px;">
+            {% if gift %}
+                <tr><td><form method="post" action="{% url 'new' project.id gift.id %}" name="nardin">
+            {% else %}
+                <tr><td><form method="post" action="{% url 'new' project.id -1 %}" name="nardin">
+            {% endif %}
+            {% csrf_token %}
+                <input type="image" src="{% static "base/logo_cb.jpg" %}" alt="Submit Form"
+                       id="cb" style="width:150px;height:100px; border: 0" />
+                <input type="hidden" id="amount" value="{{ amount }}" name="amount">
+            </form></td>
+            <td><h3>Ou</h3></td>
+            <td>{{ form.sandbox }}</td></tr>
+        </table>
+    </div>
+{% endblock %}
+
+</body>
+</html>

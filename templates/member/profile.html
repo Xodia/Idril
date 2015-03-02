@@ -1,0 +1,229 @@
+{% load staticfiles %}
+<div>
+        <h3 class="rs alternate-tab accordion-label">Profil</h3>
+        <div class="tab-pane accordion-content active">
+            <div class="form form-profile">
+                 {% if error == True %}
+                    <div class="alert alert-error">
+                        <a href="#" class="close" data-dismiss="alert">&times;</a>
+                        {{ error_message }}
+                    </div>
+                {% elif success == True %}
+                    <div class="alert alert-success">
+                        <a href="#" class="close" data-dismiss="alert">&times;</a>
+                        {{ success_message }}
+                    </div>
+                {% endif %}
+                <form enctype="multipart/form-data" action="/member/profile/" method="POST">{% csrf_token %}
+                    <div class="row-item clearfix first-item">
+
+                        <div class="col-md-4 text-right">
+                            <label class="label-profile" for="avatar">Avatar</label>
+                        </div>
+
+                        <div class="col-md-8 text-left avatar-input">
+                            <img id="avatar" src="{{MEDIA_URL}}/{{ user.profile.avatar }}" alt="avatar" width="100" height="100" />
+                            <div class="btn btn-white upload-button">
+                                <span>Changer d'avatar</span>
+                            </div>
+                            {{ ProfileForm.avatar }}
+                            <div class="col-md-8 text-center">
+                                {{ ProfileForm.avatar.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row-item clearfix">
+                        <div class="col-md-4 text-right">
+                            <label class="label-profile" for="txt_last_name">Nom</label><span class="mandatory-field">*</span>
+                        </div>
+                    
+                        <div class="col-md-8 text-left">
+                            {{ UserForm.last_name }}
+                            <div class="col-md-8 text-center">
+                                {{ UserForm.last_name.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-item clearfix">
+                        <div class="col-md-4 text-right">
+                            <label class="label-profile" for="txt_first_name">Prénom</label><span class="mandatory-field">*</span>
+                        </div>
+
+                        <div class="col-md-8 text-left">
+                            {{ UserForm.first_name }}
+                            <div class="col-md-8 text-center">
+                                {{ UserForm.first_name.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-item clearfix">
+                        <div class="col-md-4 text-right">
+                            <label class="label-profile" for="txt_sexe">Sexe</label><span class="mandatory-field">*</span>
+                        </div>
+                        <div class="col-md-8 text-left">
+                            {{ ProfileForm.gender }}
+                            <div class="col-md-8 text-center">
+                                {{ ProfileForm.gender.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-item clearfix">
+                        <div class="col-md-4 text-right">
+                            <label class="label-profile" for="txt_mail">Adresse e-mail</label><span class="mandatory-field">*</span>
+                        </div>
+                        
+                        <div class="col-md-8 text-left">
+                            {{ UserForm.email }}
+                            <div class="col-md-8 text-center">  
+                                {{ UserForm.email.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-item clearfix">
+                        <div class="col-md-4 text-right">
+                            <label class="label-profile" for="txt_birth_date">Date de naissance</label><span class="mandatory-field">*</span>
+                        </div>
+                        <div class="col-md-8 text-left">
+                            {{ ProfileForm.birth_date }}
+                            <div class="col-md-8 text-center">
+                                {{ ProfileForm.birth_date.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-item clearfix">
+                        <div class="col-md-4 text-right">
+                            <label class="label-profile" for="txt_birth_date">Description</label><span class="mandatory-field">*</span>
+                        </div>
+                        <div class="col-md-8 text-left">
+                            {{ ProfileForm.description }}
+                            <div class="col-md-8 text-center">
+                                {{ ProfileForm.description.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-item clearfix">
+                        <div class="col-md-4 text-right">
+                            <label class="label-profile" for="txt_street">Rue</label><span class="mandatory-field">*</span>
+                        </div>
+
+                        <div class="col-md-8 text-left">
+                            {{ AddressForm.street1 }}
+                            <div class="col-md-8 text-center">
+                                {{ AddressForm.street1.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-item clearfix">
+                        <div class="col-md-4 text-right">
+                            <label class="label-profile" for="txt_street2">Rue 2</label>
+                        </div>
+
+                        <div class="col-md-8 text-left">
+                            {{ AddressForm.street2 }}
+                            <div class="col-md-8 text-center">
+                                {{ AddressForm.street2.errors }}
+                            </div>
+                        </div>
+                    </div>
+      
+                    <div class="row-item clearfix">
+                        <div class="col-md-4 text-right">
+                            <label class="label-profile" for="txt_zipcode">Code postal</label><span class="mandatory-field">*</span>
+                        </div>
+
+                        <div class="col-md-8 text-left">
+                            {{ AddressForm.zip_code }}
+                            <div class="col-md-8 text-center">
+                                {{ AddressForm.zip_code.errors }}
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="row-item clearfix">
+                        <div class="col-md-4 text-right">
+                            <label class="label-profile" for="txt_city">Ville</label><span class="mandatory-field">*</span>
+                        </div>
+
+                        <div class="col-md-8 text-left">
+                            {{ AddressForm.city }}
+                            <div class="col-md-8 text-center">
+                                {{ AddressForm.city.errors }}
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="row-item clearfix">
+                        <div class="col-md-4 text-right">
+                            <label class="label-profile" for="txt_phone_number">Téléphone</label><span class="mandatory-field">*</span>
+                        </div>
+                        
+                        <div class="col-md-8 text-left">
+                            {{ AddressForm.phone_number1 }}
+                            <div class="col-md-8 text-center">
+                                {{ AddressForm.phone_number1.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row-item clearfix">
+                        <div class="col-md-4 text-right">
+                            <label class="label-profile" for="txt_phone_number2">Téléphone 2</label>
+                        </div>
+                        
+                        <div class="col-md-8 text-left">
+                            {{ AddressForm.phone_number2 }}
+                            <div class="col-md-8 text-center">
+                            {{ AddressForm.phone_number2.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-item clearfix">
+                    <a href="password_change">Changer mon mot de passe</a>
+                    </div>
+
+                    <p class="wrap-btn-submit rs ta-r">
+                        <button class="btn btn-white btn-submit-all">Sauvegarder</button>
+                    </p>
+
+                </form>
+            </div>
+        </div>
+</div>
+
+<script type="text/javascript"> // LOAD IMG
+$( document ).ready(function()
+{
+    $('.upload-button').click(function()
+    {
+        $('.button-avatar').trigger('click');
+    });
+
+    function readURL(input)
+    {
+        if (input.files && input.files[0])
+        {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#avatar').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $(".button-avatar").change(function()
+    {
+        readURL(this);
+    });
+});
+</script>

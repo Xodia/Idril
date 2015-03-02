@@ -1,0 +1,56 @@
+{% load staticfiles %}
+<div>
+    <h3 class="rs alternate-tab accordion-label">Projects</h3>
+    <div class="tab-pane accordion-content">
+      {% if Projects.count == 0 %}
+            <br><p>Aucun projet</p>
+        {% else %}
+            {% for project in Projects %}
+                <div class="box-marked-project project-short inside-tab">
+                    <div class="top-project-info">
+                        <div class="project">
+                        <div class="content-info-short clearfix">
+                            <a href="{% url "project.views.details" project.id %}" class="thumb-img">
+                                <img src="{{MEDIA_URL}}/{{ project.header }}" alt="$TITLE">
+                            </a>
+
+                            <div class="wrap-short-detail">
+                                <h3 class="rs acticle-title"><a class="be-fc-orange" href="{% url "project.views.details" project.id %}">{{ project.title }}</a></h3>
+                                <div class="profile-projectdescription">
+                                    {{ project.content|safe }}
+                                </div>
+                            </div>
+                            <!-- <p class="rs clearfix comment-view">
+                                <a href="#" class="fc-gray be-fc-orange">0 comments</a>
+                            </p> -->
+                        </div>
+                    </div>
+                    <div class="bottom-project-info clearfix">
+                        <div class="project-progress sys_circle_progress" data-percent="{{ project.get_percentage }}">
+                            <div class="sys_holder_sector"></div>
+                        </div>
+                        <div class="group-fee clearfix">
+                            <div class="fee-item">
+                                <p class="rs lbl">SOUTIENS</p>
+                                <span class="val">{{ project.get_percentage|floatformat }}</span>
+                            </div>
+                            <div class="sep"></div>
+                            <div class="fee-item">
+                                <p class="rs lbl">MONTANT ACTUEL</p>
+                                <span class="val">{{ project.get_funds_for_project }}€</span>
+                            </div>
+                            <div class="sep"></div>
+                            <div class="fee-item">
+                                <p class="rs lbl">JOURS RESTANT</p>
+                                <span class="val">{{ project.get_days_left }}</span>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <!--end: .tab-pane -->
+</div>

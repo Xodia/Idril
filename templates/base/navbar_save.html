@@ -1,0 +1,45 @@
+{% load staticfiles %}
+{% load sekizai_tags %}
+
+{% addtoblock "included_css" %}
+  <link rel="stylesheet" href="{% static "base/navbar.css" %}">
+{% endaddtoblock %}
+
+<nav class="top-bar">        
+            <ul class="right" id="nav">
+              <li class="has-dropdown">
+                <a href="/" id="Home">Accueil</a>
+                <!--  <ul class="dropdown">
+                      <li><a href="index.html">Home Page - Default</a></li>
+                      <li><a href="index-type1.html">Home Page Type 1</a></li>
+                      <li><a href="index-type2.html">Home Page Type 2</a></li>
+                      <li class="has-dropdown"><a href="#">RiverS Sliders</a>
+                      </ul> -->
+              </li>
+              <li class="has-dropdown">
+                <a href="/project" id="Project">Projets</a>
+              </li> 
+  
+              <li class="has-dropdown">
+                <a href="/project/create" id="">Soumettre votre projet</a>
+              </li>
+                
+              <li class="has-dropdown">
+                <a href="/forum" id="Forum">Forum</a>
+              </li>
+                
+              <li class="has-dropdown">
+              {% if user.is_authenticated %}
+                <a href="/member" id="Member">Mon compte</a>
+              {% else %}
+                <a href="/member" id="Member">S'identifier / S'inscrire</a>
+              {% endif %}
+              </li>
+              <li class="has-dropdown">
+                  {% if user.is_staff %}
+                     <a href="/administration" id="admin">Admin</a>
+                  {% endif %}
+              </li>
+            </ul>
+        </section> 
+  </nav>

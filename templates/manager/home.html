@@ -1,0 +1,273 @@
+{% extends "base/index.html" %}
+{% load staticfiles %}
+
+{% block script %}
+
+        <!-- jQuery -->
+    <script src="{% static "base/js/jquery.js" %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static "base/js/bootstrap.min.js" %}"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="{% static "base/js/plugins/metisMenu/metisMenu.min.js" %}"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="{% static "base/js/plugins/morris/raphael.min.js" %}"></script>
+    <script src="{% static "base/js/plugins/morris/morris.min.js" %}"></script>
+    <script src="{% static "base/js/plugins/morris/morris-data.js" %}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{% static "base/js/sb-admin-2.js" %}"></script>
+
+
+
+
+{% endblock script %}
+
+{% block head_extra %}
+    <!-- MetisMenu CSS -->
+    <style>
+        div {
+            color: white;
+        }
+        .morris-hover-row-label
+        {
+            color: black;
+        }
+        span{
+            color: darkgray;
+        }
+    </style>
+
+    <link href="{% static "base/css/plugins/metisMenu/metisMenu.min.css" %}" rel="stylesheet">
+
+    <!-- Timeline CSS -->
+    <link href="{% static "base/css/plugins/timeline.css" %}" rel="stylesheet">
+    <link href="{% static "base/css/plugins/timeline.css" %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static "base/css/sb-admin-2.css" %}" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="{% static "base/css/plugins/morris.css" %}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{% static "base/fonts/font-awesome-4.1.0/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+
+{% endblock head_extra %}
+{% block title %}
+    <title>Manager </title>
+{% endblock title %}
+
+{% block content %}
+        <div id="page-wrapper">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Dashboard {{ project.title }}</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        {% if project.is_cancelled %}
+            <div class="alert alert-danger" role="alert">Projet annuler par le porteur de projet !</div>
+    {% endif %}
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Suivi projet
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div id="morris-area-chart"></div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bell fa-fw"></i> Informations
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="list-group">
+                                <p  class="list-group-item">
+                                    Montant demandé: {{ project.amount_required|floatformat }}€
+                                    </span>
+                                </p>
+                                <p  class="list-group-item">
+                                   Jours restant : {{ days }} jours
+                                    </span>
+                                </p>
+                                <p class="list-group-item">
+                                    Montant actuel : {{ project.get_funds_for_project }}€
+                                    </span>
+                                </p>
+                                <p class="list-group-item">
+                                    Taxes : {{ tax.tax__sum }}€
+                                    </span>
+                                </p>
+                                <p class="list-group-item">
+                                    Total Net courant : {{ totalTTC }}€
+                                    </span>
+                                </p>
+                                <p  class="list-group-item">
+                                    Crée par : {{ project.user.last_name }} {{ project.user.first_name }}
+                                    </span>
+                                </p>
+                            </div>
+                            <!-- /.list-group -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bell fa-fw"></i> Cagnotte
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                        {% if project.is_cancelled %}
+                             <div class="alert alert-danger" role="alert">Projet annuler</div>
+                        {% else %}
+                               {% if days <= 0 and project.amount_required <=  project.get_funds_for_project%}
+                                <a href="{% url 'legals.views.informations' project.id %}" class="btn btn-default btn-block">Recuperer votre montant</a>
+                            {% elif days <= 0 and project.amount_required > project.get_funds_for_project%}
+                                <label class="morris-hover-row-label">Le projet n'a pas recu les fonds requis prealablement requis. Aucune retribution.</label>
+                            {% else %}
+                                <label class="morris-hover-row-label">Vous ne pouvez pas encore recuperer votre cagnotte</label>
+                            {% endif %}
+                            <!-- /.list-group -->
+                        {% endif %}
+
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-8 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Fonds
+                        </div>
+                        <div class="panel-body">
+                            <div id="morris-donut-chart">
+
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bell fa-fw"></i> Derniers paiements
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="list-group">
+
+                                {% for o in last_payments %}
+                                    <p style="text-align: left; margin-left: 20px">
+                                    <i class="fa fa-money fa-fw"></i> Don reçu par {{ o.user.username }} de {{ o.price }}€
+                                    <span class="pull-right text-muted small"><em>{{ o.payment_date|date }}</em>
+                                    </span>
+                                  </p>
+
+                                {% endfor %}
+                            </div>
+                            <!-- /.list-group -->
+                            <a  href="/payment/list?project_id={{ project.id }}" class="btn btn-default btn-block">Tous les dons</a>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bell fa-fw"></i> Donateurs
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="list-group">
+                                {% for o in last_users %}
+                                <a class="list-group-item" href="{% url 'member.views.profile_view' o.username %}" style="text-align: left; margin-left: 20px">
+                                    <i class="fa fa-envelope fa-fw"></i> {{ o.username }} - {{ o.last_name }} {{ o.first_name }}
+                                </a>
+                                {% endfor %}
+                            </div>
+                            <!-- /.list-group -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                {% if project.is_in_progress %}
+                 <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-action fa-fw"></i> Actions
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="list-group">
+                                <a class="list-group-item" href="/project/project_{{ project.id }}/edit" style="text-align: left; margin-left: 20px">
+                                    <i class="fa fa-warning fa-fw"></i> Modifier le projet
+                                </a>
+                                <form action="#" method="POST">
+                                    {% csrf_token %}
+                                    <button type='submit' id='cancel' name="cancel" class="list-group-item" style="text-align: left; margin-left: 20px">
+                                         <i class="fa fa-warning fa-fw"></i> Arrêter le projet
+                                    </button>
+                                </form>
+
+                                 <a class="list-group-item" href="mailto:idril.eip@gmail.com" style="text-align: left; margin-left: 20px">
+                                    <i class="fa fa-envelope fa-fw"></i> Contacter Idril
+                                </a>
+                            </div>
+                            <!-- /.list-group -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                {% endif %}
+                </div>
+                <!-- /.col-lg-4 -->
+            </div>
+
+            <!-- /.row -->
+        </div>
+
+ <script>
+        Morris.Donut({
+        element: 'morris-donut-chart',
+        data: [{
+            label: "Recoltes %",
+            value: {{ percent }}
+        }, {
+            label: "Restant %",
+            value: 100-{{ percent }}
+        }],
+        resize: true
+    });
+
+
+     console.log('-------> Datae');
+     var datae = new Array()
+
+        {% for o in values %}
+            var date = "{{ o.date }}"
+            var amount = "{{ o.value }}"
+            var l = {period: date, amount: amount}
+            datae.push(l);
+        {% endfor %}
+
+ Morris.Area({
+        element: 'morris-area-chart',
+        data: datae,
+        xkey: 'period',
+        ykeys: ['amount'],
+        labels: ['Montant journalier'],
+        pointSize: 2,
+        hideHover: 'auto',
+        resize: true
+    });
+
+    </script>
+{% endblock content %}

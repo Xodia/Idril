@@ -1,0 +1,164 @@
+#messages-title
+{
+	text-align: left;
+	width:50%;
+}
+
+#nav-mail, #nav-inner, .nav-list
+{
+	background-color: #fff;
+	border: 0;
+}
+
+#nav-mail
+{
+	margin-top: 10px;
+	border-top: 3px solid #00B6A9;
+}
+
+#nav-mail a:link,a:visited
+{ 
+	border-radius: 0 0 8px 8px; 
+	padding:3px 30px;
+}
+
+#nav-mail a
+{
+	float: left;
+	color: #000;
+	margin: 0 5px 0 0; /* Margin between each menu item */
+	background-color: #eee; /* Default tab color */
+	font-size:1.1em;
+	text-decoration: none;
+}
+
+#nav-mail a:hover
+{
+	background-color: #00B6A9; 
+	color: #fff;
+}
+
+#nav-mail .choice
+{
+	background-color: #00B6A9;
+	color: #fff;
+}
+
+#mail
+{
+	height: auto;
+	margin-top: 60px;
+}
+
+#new-message
+{
+	text-align: right;
+	width: 50%;
+	margin-top: 30px;
+}
+
+.message-date
+{
+	text-align: left;
+	color: rgba(0, 0, 0, 0.78);
+}
+
+.message-subject
+{
+	text-align: left;
+	color: rgba(0, 0, 0, 0.78);
+}
+
+.message-receiver
+{
+	text-align: left;
+	color: rgba(0, 0, 0, 0.78);
+}
+
+.message-content
+{
+	text-align: left;
+	margin-top:20px;
+	padding-left: 20px;
+	padding-bottom: 20px;
+	color: rgba(0, 0, 0, 0.78);
+}
+
+.message
+{
+	background-color: rgba(230, 230, 230, 1);
+	margin-top: 20px;
+	border-bottom: 2px solid #00B6A9;
+	height: 105px;
+	overflow: hidden;
+}
+
+.message-alternative
+{
+	margin-top: 20px;
+	border-bottom: 2px solid #00B6A9;
+	height: 105px;
+	overflow: hidden;
+}
+
+.message:hover
+{
+	background-color: rgba(242, 242, 242, 1);
+	height:auto;
+}
+
+.message-alternative:hover
+{
+	background-color: rgba(242, 242, 242, 1);
+	height:auto;
+}
+
+.subject-date-receiver
+{
+	padding-left:10px;
+	font-size: 1.5em;
+}
+
+.form-new-message
+{
+	width: 100%;
+	text-align: left;
+}
+
+.form-new-message .field
+{
+	border:1px solid #ccc;
+	width:400px;
+	font-size:12px;
+	line-height:1em;
+	padding:4px;
+	-moz-box-shadow:inset 0 0 1px #ccc;
+	-webkit-box-shadow:inset 0 0 1px #ccc;
+	box-shadow:inset 0 0 1px #ccc;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	font-size: 15px;
+}
+
+#button-form
+{
+	text-align: right;
+	margin-top: 20px;
+}
+
+.mceLayout
+{
+	width: 100% !important;
+}
+
+#title-new
+{
+	display: inline-flex;
+	width: 100%;
+}
+
+.label-message
+{
+	font-family: "Open Sans",sans-serif;
+    font-weight: 300;
+}

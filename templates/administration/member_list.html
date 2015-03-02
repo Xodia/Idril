@@ -1,0 +1,59 @@
+{% extends "base/index.html" %}
+
+{% block content %}
+  <h2>MEMBRES</h2>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+        <form class="navbar-form navbar-left" role="search"  method="get">
+          <div class="form-group">
+            <input type="text" class="form-control" name="s" placeholder="Search" value="{{ s }}">
+          </div>
+          <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+        </div>
+        <div class="col-md-4 col-md-offset-2 order-div">
+          <div class="btn-group" style="padding-top: 10px;padding-bottom: 30px">
+            <button type="submit" name="order_by" {% if order_by == 'last_name' %}  autofocus="yes" {% endif %} value="last_name" class="btn btn-default">Last Name</button>
+            <button type="submit" name="order_by" {% if order_by == 'first_name' %}  autofocus="yes" {% endif %} value="first_name" class="btn btn-default">First Name</button>
+            <button type="submit" name="order_by" {% if order_by == 'is_active' %}  autofocus="yes" {% endif %} value="is_active" class="btn btn-default">Status</button>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="admin-table">
+      <table class="table table-condensed">
+          <thead>
+            <tr>
+               <th>Id</th>
+               <th>Username</th>
+               <th>Last Name</th>
+               <th>First Name</th>
+               <th>Date Joined</th>
+               <th>Status</th>
+               <th></th>
+            </tr>
+          </thead>
+          <tbody>
+                {% csrf_token %}
+                {% if all_entries %}
+                  {% for entry in all_entries %}
+                    <tr>
+                      <td>{{ entry.id }}</td>
+                      <td>{{ entry.username }}</td>
+                      <td>{{ entry.last_name }}</td>
+       <!--                <td>{{ entry.payment_date|date:"d/m/Y" }} {{ entry.payment_date|time:"H:i:s" }}</td> -->
+                      <td>{{ entry.first_name }}</td>
+                      <td>{{ entry.date_joined }}</td>
+                      <td>{{ entry.is_active }}</td>
+                      <td><a href="{{ entry.username }}">details
+                    </tr>
+                  {% endfor %}
+              {% else %}
+                    <p style="color: red;">No users</p>
+              {% endif %}
+         </tbody>
+      </table>
+    </div>
+{% endblock %}

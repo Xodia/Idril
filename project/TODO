@@ -1,0 +1,12 @@
+A voir :
+
+- URL Rewriting propre a faire.
+
+- Regles d'edition d'un projet : que peut-on changer, que ne peut on pas changer ?
+	- Goodies inchangeables ;
+	- Titre du projet, categorie, inchangeables ;
+	- Garder un historique des modifications au cas ou le user fait une modif nimp dans son texte ;
+	- Rajouter un compteur d'editions de projets ;
+	- CSRF token !
+
+- Voir framework js (Angular ?)

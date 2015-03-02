@@ -1,0 +1,112 @@
+{% extends "base/index.html" %}
+
+{% block title %}
+    <title>Paiement</title>
+{% endblock title %}
+{% block content %}
+<div class="container_12 clearfix">
+    <div class="panel panel-default">
+        <div class="row" align="center">
+            <h2>{{ project.title }}</h2>
+            <h4> {{ project.user.username }}</h4>
+        </div>
+
+        {% if error or messages %}
+            <div class="alert alert-danger" role="alert">{{ error }}
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form class="form-inline" role="form" method="POST" action="{% url 'payment.views.payment_cb' project.id -1 %}">
+            {% csrf_token %}
+            <div class="container_12 clearfix" style="margin-top: 20px;">
+                <div class="row">
+                    <div class="col-md-12">
+                            <h3>Veuillez entrer le montant que vous souhaitez donner</h3>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-offset-4" style="padding-top: 20px;padding-bottom: 20px">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon">€</div>
+                                            <input class="form-control" name="amount" value="1" min="1" type="number" placeholder="Entrer montant"
+                                                   style="width:225px; height: 45px">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12" style="padding-top: 20px;padding-bottom: 10px">
+                                    <p>C'est à vous de voir ! Le montant doit être superieur à 1€</p>
+                                </div>
+
+                            {% if panier > 0 %}
+                                <div class="col-lg-10 col-sm-offset-1">
+                                         <h3>Souhaitez-vous utiliser l'argent  contenu dans votre porte-feuille ? ({{ panier }} EUR)</h3>
+                                <div class="list-group">
+                                    <!-- For each of gifts -->
+                                    <div align="left" style="padding-left: 40px">
+                                        <label class="radio-inline">
+                                            <input type="radio" checked="YES" name="panier_choice"
+                                                   style="-webkit-appearance: radio;" id="panier_choice" value="{{ panier }}"> Utilisé mon panier
+                                        </label>
+                                    </div>
+                                    <div align="left" style="padding-left: 40px">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="panier_choice"
+                                                   style="-webkit-appearance: radio;" id="panier_choice" value="none"> Ne pas utiliser mon panier
+
+                                        </label>
+                                    </div>
+                                </div>
+                                </div>
+                            {% endif %}
+                            </div>
+
+                    </div>
+                </div>
+                <hr class="soften">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h3>Selectionné votre récompense</h3>
+                        <div class="list-group col-md-6 col-md-offset-4">
+                                    <!-- For each of gifts -->
+                            <div align="left" style="padding-left: 40px">
+                                <label class="radio-inline">
+                                    <input type="radio" checked="YES" name="gift_choice"
+                                           style="-webkit-appearance: radio;" id="gift_choice" value="none"><p>Aucune recompense</p>
+                                </label>
+                            </div>
+                            {% for gift in list_gifts %}
+                                <div align="left" style="padding-left: 40px">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="gift_choice"
+                                               style="-webkit-appearance: radio; background-color: #04B7A6;border-color: #04B7A6"
+                                               id="gift_choice" value="{{ gift.id }}"> <p>{{ gift.amount_required }} € - {{ gift.description }}</p>
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <hr class="soften">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                            <div style="padding: 5px">
+                                <h4>IMPORTANT</h4>
+
+                                <p>Idril ne garantie pas que le projet soit conclu par le créateur. La responsabilité
+                                    revient au créateur du projet comme convenu, tout comme les créances de ce projet le sont
+                                    aussi.</p>
+                                <!--<a>Learn more about accountability</a>-->
+                            </div>
+
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="y" value="4" name="y">
+            <div class="row" style="padding-bottom:20px">
+                <button type="submit" class="btn btn-idril">Suivant</button>
+            </div>
+        </form>
+        </div>
+</div>
+{% endblock %}

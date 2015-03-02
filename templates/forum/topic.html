@@ -1,0 +1,98 @@
+{% extends "forum/forum.html" %}
+{% load staticfiles %}
+
+{% block css %}
+{{ block.super}}
+<link rel="stylesheet" href="{% static "member/forms.css" %}">
+<link rel="stylesheet" href="{% static "forum/forum.css" %}">
+{% endblock css %}
+
+{% block title %}
+<title>Forum</title>
+{% endblock title %}
+
+{% block script %}
+{{ block.super }}
+<script type="text/javascript" src="{% static "forum/js/tinymce/tinymce.min.js" %}"></script>
+<script src="{% static "forum/forum.js" %}"></script>
+<script>
+tinymce.init({
+    selector: '#id_content',
+});
+</script>
+{% endblock script %}
+
+{% block content %}
+<!-- 	DIV DIALOG REPORT MESSAGE -->
+<div class="container_12 clearfix">
+	<div id="form-report" title="Signaler un message">
+		<p>Motif</p>
+		<input type="text" id="reason" class="report-reason">
+	</div>
+		<div class="row text-left col-md-offset-1" style="margin-bottom: 20px">
+			<h2>{{ topic.title }}</h2>
+		</div>
+
+		<p id="report-confirmation">Votre message a été signalé à un modérateur</p>
+
+		<br>
+	<!-- 	DISPLAY MESSAGES -->
+		{% for message in messages %}
+		{% if forloop.counter|divisibleby:2 %}
+			<div class="message">
+		{% else %}
+			<div class="message-alternative">
+		{% endif %}	
+			<div class="user-info">
+				<label>{{ message.author.username|upper }}</label><br><br>
+				<img class="forum-avatar" src="{{MEDIA_URL}}/{{ message.author.profile.avatar }}" alt="avatar" width="100" height="100" />
+			</div>
+			<div class="content">
+				<div id="date-report-reply">
+					<div class="message-date">
+						Le {{ message.date|date:'d-m-Y' }} à {{ message.date|date:'H:i' }}
+					</div>
+					{% if user.is_authenticated %}
+					<div class="report-reply">
+						<a onclick="report_message('{{ message.id }}', '{{ message.author.username }}')" nohref>Signaler</a>
+						<a onclick="reply_message('{{ message.id }}', '{{ message.author.username }}')" href="#reply">Répondre</a>
+					</div>
+					{% endif %}
+				</div>
+				
+				<div class="forum-message-content">
+					{{ message.content|safe }}
+				</div>
+			</div>
+	        <div class="vote">
+		    	{% if user.is_authenticated %}
+	        	<button class="like" type="button" onclick="like_message('{{ message.id }}')"><img class="arrow_vote" src="{% static "forum/like.png" %}" /></button>
+				{% endif %}
+	            <label class="label-like" id="label {{ message.id }}">{{ message.likes }}</label>
+				{% if user.is_authenticated %}
+	            <button class="like" type="button" onclick="dislike_message('{{ message.id }}')"><img class="arrow_vote" src="{% static "forum/dislike.png" %}" /></button>
+	        	{% endif %}
+	        </div>
+
+		</div>
+		{% endfor %}
+
+	<!-- 	FORM REPLY MESSAGE -->
+		<form enctype="multipart/form-data" action="post_message" method="POST">{% csrf_token %}
+			{% if user.is_authenticated %}
+			<div class="form-group text-left">
+	            <p  style="margin-bottom:20px">Votre message</p>
+				{{ messageForm.content }} 
+	        </div>
+			{% endif %}
+			<div class="row" id="reply" style="margin-bottom: 20px">
+				<div class="col-md-3 col-md-offset-9">
+					<button class="btn btn-white" type="submit" name="cancel">Retour</button>
+					<button class="btn btn-white" type="submit" name="save">Répondre</button>
+				</div>
+			</div>
+		</form>
+</div>
+{% endblock %}
+
+

@@ -1,0 +1,14 @@
+{% autoescape off %}
+Bonjour {{ user.username }},
+
+Afin de finaliser votre inscription sur le site Idril, nous vous prions de confirmer votre inscription en cliquant sur le lien ci-dessous :
+{% block reset_link %}
+{{ protocol }}://{{ domain }}{% url 'member.views.register_confirm' activation_key=activation_key %}
+{% endblock reset_link %}
+Vous faites maintenant partie de la grande famille qu'est Idril.
+
+Nous vous remercions pour votre confiance et nous vous souhaitons une bonne navigation.
+
+La Team Idril.
+{% endautoescape %}
+

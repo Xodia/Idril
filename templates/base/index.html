@@ -1,0 +1,182 @@
+<!doctype html>
+{% load staticfiles %}
+{% load sekizai_tags %}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static "base/favicon.ico" %}" />
+    {% block script %}
+        <!-- ATTENTION -- TOUJOURS INCLURE LE JQUERY EN PREMIER -->
+        <script src="{% static "base/jquery.min.js" %}"></script>
+        <script src="{% static "base/jquery-ui.js" %}"></script>
+
+        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+        <!-- Inclusion script template -->
+        <script type="text/javascript" src="{% static "base/js/raphael-min.js" %}"></script>
+        <script type="text/javascript" src="{% static "base/js/md_slider.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "base/js/jquery.touchwipe.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "base/js/responsiveslides.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "base/js/jquery-migrate-1.2.1.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "base/js/jquery.sidr.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "base/js/jquery.tweet.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "base/js/pie.js" %}"></script>
+        <script type="text/javascript" src="{% static "base/js/script.js" %}"></script>
+        <script type="text/javascript" src="{% static "base/js/selectnav.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "base/js/script.js" %}"></script>
+        <script type="text/javascript" src="{% static "base/js/selectize.min.js" %}"></script>
+    {% endblock script %}
+
+    {% block css %}
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
+        <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+
+        <link rel="stylesheet" href="{% static "base/style.css" %}">
+        <link rel="stylesheet" href="{% static "base/css/responsive.css" %}"/>
+        <link rel="stylesheet" href="{% static "base/css/normalize.css" %}"/>
+        <link rel="stylesheet" href="{% static "base/css/jquery.sidr.light.css" %}"/>
+        <link rel="stylesheet" href="{% static "base/css/animate.min.css" %}"/>
+        <link rel="stylesheet" href="{% static "base/css/md-slider.css" %}"/>
+        <link rel="stylesheet" href="{% static "base/css/responsiveslides.css" %}"/>
+        <link rel="stylesheet" href="{% static "base/css/selectize.css" %}"/>
+        <link rel="stylesheet" href="{% static "base/css/jquery-ui-smoothness.css" %}"/>
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+    {% endblock css %}
+
+    {% render_block "included_css" %}
+
+    {% block head_extra %}
+    {% endblock head_extra %}
+
+    {% block title %}
+        <title>Accueil</title>
+    {% endblock title %}
+</head>
+<body>
+<header id="header">
+    {% block navbar %}
+        {% include "base/navbar.html" %}
+    {% endblock navbar %}
+</header><!--end: #header -->
+
+    <div class="wrapper">
+        <div class="main_content">
+            {% block content %}
+                <div class="home-slider">
+                <div id="home-slider">
+                    <div class="md-slide-items md-slider" id="md-slider-1" data-thumb-width="105"
+                         data-thumb-height="70">
+                        <div class="md-slide-item slide-0" data-timeout="4000">
+                            <div class="md-mainimg"><img src="http://www.anahm.be/anahm/files/Image/don.jpg" alt="">
+                            </div>
+                            <div class="md-objects">
+                                <div class="md-object slide-with-background" data-x="20" data-y="58" data-width="500"
+                                     data-height="170" data-padding-top="30" data-padding-bottom="30"
+                                     data-padding-left="35" data-padding-right="35" data-start="300" data-stop="3600"
+                                     data-easein="random" data-easeout="keep">
+                                    <h2 class="rs slide-title">Démarrez votre projet dès aujourd'hui</h2>
+                                </div>
+                                <div class="md-object" data-x="600" data-y="44" data-start="1000" data-stop="5500"
+                                     data-easein="random" data-easeout="random" style=""><img
+                                        src="{{ MEDIA_URL }}/logo_idril.png"
+                                        alt="idril logo"/></div>
+                            </div>
+                        </div>
+                        <div class="md-slide-item slide-1" data-timeout="4000">
+                            <div class="md-mainimg"><img
+                                    src="http://www.agencema.fr/wp-content/uploads/2013/12/image.jpg" alt=""></div>
+                            <div class="md-objects">
+                                <div class="md-object slide-with-background" data-x="20" data-y="58" data-width="500"
+                                     data-height="170" data-padding-top="30" data-padding-bottom="30"
+                                     data-padding-left="35" data-padding-right="35" data-start="300" data-stop="3600"
+                                     data-easein="random" data-easeout="keep">
+                                    <h2 class="rs slide-title">Soutenez un projet humanitaire</h2>
+                                </div>
+                                <div class="md-object" data-x="600" data-y="44" data-start="1000" data-stop="5500"
+                                     data-easein="random" data-easeout="random" style=""><img
+                                        src="{{ MEDIA_URL }}/logo_idril.png"
+                                        alt="idril logo"/></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!--</div>-->
+                <div class="home-popular-project">
+                    <div class="container_12">
+                        <div class="clear"></div>
+                       <div class="lst-popular-project clearfix">
+                        {% for key, value in grouped_projects.items %}
+                                <!-- Récupération de la catégorie du projet -->
+                                <!-- Définition de la div qui contient les projets -->
+                                {% for v in value %}
+                                    {% for proj, percent in v.items %}
+                                        <div class="grid_3" style="margin-right:10px;">
+                                            <!-- Définition d'un projet -->
+                                            <div class="project-short sml-thumb">
+                                                <div class="top-project-info">
+                                                    <div class="content-info-short clearfix">
+                                                        <a href="project/project_{{ proj.id }}" class="thumb-img">
+                                                            <img class="img-illust" src="{{ MEDIA_URL }}/{{ proj.header }}">
+                                                        </a>
+                                                        <div class="wrap-short-detail">
+                                                            <h3 class="rs acticle-title"><a class="be-fc-orange"
+                                                                                            href="project/project_{{ proj.id }}">{{ proj.title }}</a>
+                                                            </h3>
+                                                            <p class="rs tiny-desc">de <a href="/member/{{ proj.user }}"
+                                                                                          class="fw-b fc-gray be-fc-orange">{{ proj.user }}</a></p>
+                                                            {{ proj.short_description }}
+                                                            <!-- <p class="rs project-location">
+                                                                <i class="icon iLocation"></i>
+                                                                A défnir lieu
+                                                            </p> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="bottom-project-info clearfix">
+                                                    <div class="line-progress">
+                                                        <div class="bg-progress">
+                                                            <span style="width:{{ percent }}%"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div     class="group-fee clearfix">
+                                                        <div class="fee-item">
+                                                            <p class="rs lbl">Financé</p>
+                                                            <span class="val">{{ percent|floatformat }}%</span>
+                                                        </div>
+                                                        <div class="sep"></div>
+                                                        <div class="fee-item">
+                                                            <p class="rs lbl">Objectif</p>
+                                                            <span class="val">{{ proj.amount_required|floatformat }} €</span>
+                                                        </div>
+                                                        <div class="sep"></div>
+                                                        <div class="fee-item">
+                                                            <p class="rs lbl">Jours restant</p>
+                                                            <span class="val">{{ proj.get_days_left }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+
+                        {% endfor %}
+                       </div>
+                    </div>
+                </div>
+                <!-- Fin de la définition d'un projet -->
+            {% endblock content %}
+    </div>
+        <footer>
+            <div id="footer">
+                {% block footer %}
+                    {% include "base/footer.html" %}
+                {% endblock footer %}
+            </div>
+        </footer>
+</div>
+</body>
+</html>

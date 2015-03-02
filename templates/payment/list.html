@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% extends "base/index.html" %}
+    {% load staticfiles %}
+    {% load sekizai_tags %}
+    <title>Paiements</title>
+    <style>
+        th, td {
+            padding: 5px;
+        }
+
+        table {
+            border-collapse: separate;
+            border-spacing: 15px;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        th, td {
+            vertical-align: top;
+        }
+
+        table {
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+{% block content %}
+    <h1>Paiements</h1>
+
+    <div class="container_12 clearfix">
+        <div class="row">
+            <div class="col-md-4">
+                <form class="navbar-form navbar-left" role="search" method="get">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="s" placeholder="Search" value="{{ s }}">
+                    </div>
+                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>
+                    </button>
+            </div>
+            <div class="col-md-4 col-md-offset-2">
+                <div class="btn-group" style="padding-top: 10px;padding-bottom: 30px">
+                    <button type="submit" name="order_by" {% if order_by == 'payment_asc' %}
+                            autofocus="yes" {% endif %} value="payment_asc" class="btn btn-default">Date ASC
+                    </button>
+                    <button type="submit" name="order_by" {% if order_by == 'payment_desc' %}
+                            autofocus="yes" {% endif %} value="payment_desc" class="btn btn-default">Date DESC
+                    </button>
+                    <button type="submit" name="order_by" {% if order_by == 'type' %}  autofocus="yes" {% endif %}
+                            value="type" class="btn btn-default">Type
+                    </button>
+                    <button type="submit" name="order_by" {% if order_by == 'status' %}  autofocus="yes" {% endif %}
+                            value="status" class="btn btn-default">Status
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+    <div class="container_12">
+        <form method="post">
+            <table style="border-collapse: collapse; margin: 0 auto;padding-top: 10px; margin-bottom: 20px;"
+                   class="table table-condensed">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Projet</th>
+                    <th>Username</th>
+                    <th>Nom - Prenom</th>
+                    <th>Date de paiement</th>
+                    <th>Status du paiement</th>
+                    <th>Prix</th>
+                    <th>Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% csrf_token %}
+                {% if all_entries %}
+                    {% for entry in all_entries %}
+
+                        {% if entry.payment_status == 'PENDING' %}
+                            <tr class="warning">
+                                {% elif entry.payment_status == 'PAID' %}
+                            <tr class="success">
+                                {% elif entry.payment_status == 'DENIED' or entry.payment_status == 'CANCELED' or entry.payment_status == 'FAILED' %}
+                            <tr class="danger">
+                                {% else %}
+                            <tr>
+                        {% endif %}
+                    <td>{{ entry.id }}</td>
+                    <td>{{ entry.project.title }}</td>
+                    <td>{{ entry.user.username }}</td>
+                    {% if entry.payment_type == 'CB' %}
+                        <td>{{ entry.bank_info.name_owner_card }}</td>
+                    {% elif entry.payment_type == 'PAYPAL' %}
+                        <td>{{ entry.paypal_info.last_name }} {{ entry.paypal_info.first_name }}</td>
+                    {% endif %}
+                    <td>{{ entry.payment_date|date:"d/m/Y" }} {{ entry.payment_date|time:"H:i:s" }}</td>
+                    <td>{{ entry.payment_status }}</td>
+                    <td>{{ entry.price }}</td>
+                    <td>{{ entry.payment_type }}</td>
+                    <td>
+                        <button type="submit" name="delete_paiement_id" value="{{ entry.id }}">X</button>
+                    </td>
+                    <td><a href="{% url 'payment.views.payment_detail' entry.id %}">Detail</a></td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <p style="color: red;">No payments</p>
+                {% endif %}
+
+                </tbody>
+
+
+            </table>
+            {% if order_by %}<input type="text" name="order_by" value="{{ order_by }}" hidden="yes"/> {% endif %}
+            {% if s %}<input type="text" name="s" value="{{ s }}" hidden="yes"/> {% endif %}
+        </form>
+
+        <form method="get">
+            <div class="pagination">
+                <span class="step-links">
+                    {% if all_entries.has_previous %}
+                        <button type="submit" name="page" value="{{ all_entries.previous_page_number }}" class="btn btn-default">
+                         Next
+                        </button>
+                    {% endif %}
+                </span>
+
+                <span class="current">
+                     Page {{ all_entries.number }} of {{ all_entries.paginator.num_pages }}.
+                </span>
+
+                <span>
+                     {% if all_entries.has_next %}
+                         <button type="submit" name="page" value="{{ all_entries.next_page_number }}"
+                                 class="btn btn-default">Next
+                         </button>
+                     {% endif %}
+                </span>
+            </div>
+            {% if order_by %}<input type="text" name="order_by" value="{{ order_by }}" hidden="yes"/> {% endif %}
+            {% if s %}<input type="text" name="s" value="{{ s }}" hidden="yes"/> {% endif %}
+
+        </form>
+    </div>
+{% endblock %}
+</body>
+</html>

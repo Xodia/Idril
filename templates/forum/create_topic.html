@@ -1,0 +1,48 @@
+{% extends "forum/forum.html" %}
+{% load staticfiles %}
+
+{% block css %}
+{{ block.super}}
+<link rel="stylesheet" href="{% static "member/messages.css" %}">
+<link rel="stylesheet" href="{% static "forum/forum.css" %}">
+{% endblock css %}
+
+{% block script %}
+<script type="text/javascript" src="{% static "forum/js/tinymce/tinymce.min.js" %}"></script>
+{% endblock script %}
+
+{% block title %}
+<title>Forum</title>
+{% endblock title %}
+
+{% block content %}
+<script>
+    tinymce.init({
+        selector: '#id_content',
+    });
+</script>
+<div class="container_12 clearfix">
+    <div class="panel panel-default" style="padding-top: 20px">
+	<form class="form" enctype="multipart/form-data" action="/forum/create_topic/" method="POST">{% csrf_token %}
+	 	<div class="modal-body">
+	        <div class="form-group text-left">
+	        	<label class="label-message" style="margin-right: 10px">Titre</label>
+				{{ topicForm.title }}
+	        </div>
+	        <div class="form-group text-left">
+	            <label class="label-message" style="margin-bottom:10px">Votre message</label>
+				{{ messageForm.content }} 
+	        </div>
+        </div>
+		<div class="row" style="margin-bottom: 20px">
+			<div class="col-md-3 col-md-offset-9">
+				<button class="btn btn-white" type="submit" name="cancel">Retour</button>
+				<button class="btn btn-white" type="submit" name="save">Créer</button>
+			</div>
+		</div>
+	</form>
+	</div>
+</div>
+{% endblock %}
+
+

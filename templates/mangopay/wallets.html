@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% extends "base/index.html" %}
+    <title>Paiements</title>
+    <style>
+        th, td { padding: 5px; }
+        table { border-collapse: separate; border-spacing: 15px; }
+        table { border-collapse: collapse; border-spacing: 0; }
+        th, td { vertical-align: top; }
+        table { margin: 0 auto; }
+    </style>
+</head>
+<body>
+{% block content %}
+    <h1>Mangopay wallets</h1>
+    <div class="container">
+    <div class="row">
+        <div class="col-md-4">
+        <form class="navbar-form navbar-left" role="search"  method="get">
+            <div class="form-group">
+             <input type="text" class="form-control" name="s" placeholder="Search" value="{{ s }}">
+             </div>
+            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+        </div>
+        <div class="col-md-4 col-md-offset-2">
+        </div>
+    </div>
+    </div>
+    </form>
+    <table style="border-collapse: collapse; margin: 0 auto;padding-top: 10px;" class="table table-condensed">
+   <thead>
+      <tr>
+         <th>ID</th>
+         <th>MANGOPAY_ID</th>
+         <th>Project</th>
+         <th>User Owner</th>
+         <th>Balance</th>
+         <th>Action</th>
+      </tr>
+   </thead>
+   <tbody>
+          {% csrf_token %}
+          {% if all_entries %}
+          {% for wallet in all_entries %}
+           <tr>
+                <td>{{ wallet.id }}</td>
+                <td>{{ wallet.mangopay_id }}</td>
+                <td>[{{ wallet.project.id }}] |  {{ wallet.project.title }}</td>
+                <td>{{ wallet.user.last_name }}  | {{ wallet.user.first_name }}</td>
+                <td>{{ wallet.balance }}</td>
+                <td><a href="{% url 'mangopay_idril.views.wallet' wallet.project.id %}">Detail</a></td>
+           </tr>
+            {% endfor %}
+        {% endif %}
+   </tbody>
+</table>
+{% endblock %}
+</body>
+</html>

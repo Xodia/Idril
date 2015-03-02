@@ -1,0 +1,342 @@
+.text-forum
+{
+    font-family: "Open Sans",sans-serif;
+    font-weight: 400;
+}
+
+.forum-avatar {
+    border: 1px solid #d4d4d4;
+    border-radius: 80px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    height: 100px !important;
+    width: 100px !important;
+}
+
+.topic
+{
+	background: none repeat scroll 0 0 #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.first-line
+{
+	padding-top: 10px;
+	display: inline-flex;
+	width: 100%;
+	height: 50%;
+}
+
+.second-line
+{
+	display: inline-flex;
+	width: 100%;
+	height: 50%;
+	padding-top:10px;
+}
+
+.topic:hover
+{
+	background-color: rgba(242, 242, 242, 1);
+	color: black;
+}
+
+.title
+{
+	width:50%;		
+	text-align: left;
+	padding-left: 20px;
+	font-size: 1.3em;
+	color: rgba(50, 50, 50, 1);
+	overflow: hidden
+
+}
+
+.author-date
+{
+	text-align: left;
+	padding-left: 20px;
+	font-size: 0.8em;
+	width:55%;
+	overflow: hidden
+}
+
+.nb-messages
+{
+	color: black;
+	width:20%;
+	overflow: hidden
+}
+
+.last-message
+{
+	width:40%;
+	text-align: right;
+	padding-right: 20px;
+	font-size: 0.8em;
+	overflow: hidden
+}
+
+.last-message-date
+{
+	text-align: right;
+	padding-right: 30px;
+	font-size: 0.8em;
+	width:50%;
+	overflow: hidden
+}
+
+#title-create
+{
+	width:100%;
+	display:inline-flex;
+}
+
+#topic-title
+{
+	width: 100%;
+	color: #00B6A9;
+	/*font-family: 'Titillium Web',sans-serif;*/
+	text-rendering: optimizelegibility;
+	letter-spacing: 2px;
+	font-weight: 300;
+	margin-bottom: 0px;
+	font-size: 2.4em;
+	text-align: left;
+	padding-left: 20px;
+	padding-bottom: 20px;
+}
+
+.message
+{
+	background: none repeat scroll 0 0 #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+	display: inline-flex;
+	width: 100%;
+}
+
+.message-alternative
+{
+	background: none repeat scroll 0 0 #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+	display: inline-flex;
+	width: 100%;
+}
+
+.message:hover
+{
+	background-color: rgba(242, 242, 242, 1);
+}
+
+.message-alternative:hover
+{
+	background-color: rgba(242, 242, 242, 1);
+}
+
+.user-info
+{
+	width: 15%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-right: 20px;
+}
+
+.user-info label
+{
+	font-size: 1.0em;
+	font-family: 'Titillium Web',sans-serif;
+	color:grey;
+}
+
+.message-date
+{
+	width: 100%;
+	height: 15px;
+	text-align: left;
+	font-size: 0.8em;
+	padding-top: 10px;
+	font-family: 'Titillium Web',sans-serif;
+}
+
+.forum-message-content
+{
+	/*margin-top: 20px;
+	margin-bottom: 20px;*/
+	font-weight: 300;
+	text-align: left;
+	width: 95%;
+	font-family: 'Titillium Web',sans-serif;
+	color: rgba(35, 34, 34, 1) !important;
+	line-height: 1.5em;
+	word-break: break-all;
+}
+
+.content
+{
+	width:85%;
+}
+
+#form .topic-title
+{
+	border:1px solid #ccc;
+	width:480px;
+	font-size:12px;
+	line-height:1em;
+	padding:4px;
+	-moz-box-shadow:inset 0 0 1px #ccc;
+	-webkit-box-shadow:inset 0 0 1px #ccc;
+	box-shadow:inset 0 0 1px #ccc;
+}
+
+.form-topic
+{
+	width: 100%;
+	text-align: left;
+}
+
+.form-topic .field
+{
+	border:1px solid #ccc;
+	width:400px;
+	font-size:12px;
+	line-height:1em;
+	padding:4px;
+	-moz-box-shadow:inset 0 0 1px #ccc;
+	-webkit-box-shadow:inset 0 0 1px #ccc;
+	box-shadow:inset 0 0 1px #ccc;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	font-size: 15px;
+}
+
+.report-reply
+{
+	padding-top: 10px;
+	text-align: right;
+	padding-right: 20px;
+	display: none;
+	width:40%;
+}
+
+.report-reply a
+{
+	margin-right: 10px;
+}
+
+.message:hover .report-reply
+{
+	display: block;
+}
+
+.message-alternative:hover .report-reply
+{
+	display: block;
+}
+
+#date-report-reply
+{
+	display: inline-flex;
+	width: 100%;
+}
+
+form          /*Bug css menu (forum)*/
+{
+}
+
+.mceLayout
+{
+	width: 100% !important;
+}
+
+#reply
+{
+	text-align: left;
+}
+
+#button-form
+{
+	text-align: right;
+	margin-top: 20px;
+}
+
+.mceContentBody 
+{
+	font-size: 15px !important;
+}
+
+.message-content
+{
+	display: block;
+	-moz-hyphens: auto;
+	-ms-hyphens: auto;
+	-webkit-hyphens: auto;
+	hyphens: auto;
+	word-wrap: break-word;
+}
+
+.arrow_vote
+{
+	width: 28px;
+	height: 28px;
+}
+
+.vote
+{
+	width: 5%;
+	padding-top: 30px;
+}
+
+.like
+{
+	border: 0px none;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	font-size: 16px;
+	color: #FFF;
+	background: none repeat scroll 0% 0% transparent;
+	cursor: pointer;
+	margin-bottom: 10px;
+	visibility: hidden;
+}
+
+.message:hover .like
+{
+	visibility: visible;
+}
+
+.message-alternative:hover .like
+{
+	visibility: visible;
+}
+
+.label-like
+{
+	font-size: 1.2em;
+	color: black;
+	display: block;
+}
+
+blockquote
+{
+	margin-left: 20px;
+    border-left: 4px solid grey;
+    font-size:1.0em;
+    padding-left: 10px;
+}
+
+#report-confirmation
+{
+	color: green !important;
+    text-align: center;
+    font-size:0.9em;
+}
+

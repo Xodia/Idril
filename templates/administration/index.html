@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% extends "base/index.html" %}
+    <title>Administration</title>
+</head>
+<body>
+{% block content %}
+<h2>ADMINISTRATION</h2>
+<div class="list-admin" style="padding-top: 20px;">
+  <!-- <a href="/administration/member/" class="list-group-item">Membres</a> -->
+  <a href="{% url 'project.admin.project_list' %}" class="list-group-item">Projets</a>
+  <a href="/payment/list" class="list-group-item">Paiements</a>
+  <a href="/mangopay/list" class="list-group-item">Comptes MangoPay</a>
+  <!-- <a href="#" class="list-group-item">Forum</a> -->
+  <a href="/admin" class="list-group-item">Admin Django</a>
+</div>
+
+{% endblock %}
+</body>
+</html>

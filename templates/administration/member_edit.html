@@ -1,0 +1,145 @@
+{% extends "base/index.html" %}
+{% load staticfiles %}
+{% block css %}
+{{ block.super }}
+    <link rel="stylesheet" href="{% static "member/member.css" %}">
+    <link rel="stylesheet" href="{% static "member/forms.css" %}">
+    <link rel="stylesheet" href="{% static "base/style.css" %}">
+    <link rel="stylesheet" href="{% static "base/css/normalize.css" %}">
+    <link rel="stylesheet" href="{% static "base/css/jquery.sidr.light.css" %}">
+    <link rel="stylesheet" href="{% static "base/css/responsive.css" %}">
+{% endblock css %}
+
+{% block content %}
+<div class="layout-2cols">
+ <div class="form form-profile">
+     {% if error == True %}
+        <p id="error_msg">{{ error_message }}</p>
+    {% elif success == True %}
+        <p id="success_msg">{{ success_message }}</p>
+    {% endif %}
+    <form enctype="multipart/form-data" action="/administration/member/{{ user.username }}/" method="POST">{% csrf_token %}
+        <div class="row-item clearfix first-item">
+            <label class="lbl" for="avatar">Avatar</label>
+            <div class="val">
+                <img id="avatar" src="{{MEDIA_URL}}/{{ user.profile.avatar }}" alt="avatar" width="100" height="100" />
+                {{ ProfileForm.avatar }}
+                {{ ProfileForm.avatar.errors }}
+            </div>
+        </div>
+
+
+         <div class="row-item clearfix">
+            <label class="lbl" for="txt_last_name">Mangopay porte-feuile</label>
+            <div class="val">
+                {% if Has_Wallet %}
+                    <p style="color: #42b413">L'utilisateur a un porte-feuille personnel mangopay attitrer.</p>
+                {% else %}
+                   <p style="color: red">L'utilisateur n'est relier a aucun porte-feuille mangopay (personnel)</p>
+                {% endif %}
+            </div>
+        </div>
+
+
+        <div class="row-item clearfix">
+            <label class="lbl" for="txt_last_name">Nom</label>
+            <div class="val">
+                {{ UserForm.last_name }}
+                {{ UserForm.last_name.errors }}
+            </div>
+        </div>
+
+        <div class="row-item clearfix">
+            <label class="lbl" for="txt_first_name">Prénom</label>
+            <div class="val">
+                {{ UserForm.first_name }}
+                {{ UserForm.first_name.errors }}
+            </div>
+        </div>
+
+        <div class="row-item clearfix">
+            <label class="lbl" for="txt_sexe">Sexe</label>
+            <div class="val">
+                {{ ProfileForm.gender }}
+                {{ ProfileForm.gender.errors }}
+            </div>
+        </div>
+
+        <div class="row-item clearfix">
+            <label class="lbl" for="txt_mail">Adresse e-mail</label>
+            <div class="val">
+                {{ UserForm.email }}
+                {{ UserForm.email.errors }}
+            </div>
+        </div>
+
+        <div class="row-item clearfix">
+            <label class="lbl" for="txt_birth_date">Date de naissance</label>
+            <div class="val">
+                {{ ProfileForm.birth_date }}
+                {{ ProfileForm.birth_date.errors }}
+            </div>
+        </div>
+
+        <div class="row-item clearfix">
+            <label class="lbl" for="txt_birth_date">Description</label>
+            <br>
+                {{ ProfileForm.description }}
+                {{ ProfileForm.description.errors }}
+        </div>
+
+        <div class="row-item clearfix">
+            <label class="lbl" for="txt_street">Rue</label>
+            <div class="val">
+                {{ AddressForm.street1 }}
+                {{ AddressForm.street1.errors }}
+            </div>
+        </div>
+
+        <div class="row-item clearfix">
+            <label class="lbl" for="txt_street2">Rue 2</label>
+            <div class="val">
+                {{ AddressForm.street2 }}
+                {{ AddressForm.street2.errors }}
+            </div>
+        </div>
+
+        <div class="row-item clearfix">
+            <label class="lbl" for="txt_zipcode">Code postal</label>
+            <div class="val">
+                {{ AddressForm.zip_code }}
+                {{ AddressForm.zip_code.errors }}
+            </div>
+        </div>
+
+        <div class="row-item clearfix">
+            <label class="lbl" for="txt_city">Ville</label>
+            <div class="val">
+                {{ AddressForm.city }}
+                {{ AddressForm.city.errors }}
+            </div>
+        </div>
+    
+        <div class="row-item clearfix">
+            <label class="lbl" for="txt_phone_number">Téléphone</label>
+            <div class="val">
+            {{ AddressForm.phone_number1 }}
+            {{ AddressForm.phone_number1.errors }}
+            </div>
+        </div>
+
+
+        <div class="row-item clearfix">
+            <label class="lbl" for="txt_phone_number2">Téléphone 2</label>
+            <div class="val">
+            {{ AddressForm.phone_number2 }}
+            {{ AddressForm.phone_number2.errors }}
+            </div>
+        </div>
+        <p class="wrap-btn-submit rs ta-r">
+            <button class="btn btn-idril btn-submit-all">Sauvegarder</button>
+        </p>
+    </form>
+</div>
+</div>
+{% endblock content %}

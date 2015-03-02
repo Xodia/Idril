@@ -1,0 +1,40 @@
+{% extends "base/index.html" %}
+{% load staticfiles %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static "member/member.css" %}">
+<link rel="stylesheet" href="{% static "member/forms.css" %}">
+{% endblock css %}
+
+{% block content %}
+<div class="profile-view">
+    <div class="profile-resume" style="margin-bottom: 15px">
+		<div class="media">
+	        <a href="#" class="thumb-left">
+	            <img class="avatar" src="{{ 	MEDIA_URL }}/{{ user.profile.avatar }}" alt="$USER_NAME">
+				<h3 class="title-box">
+				<label class="username">{{ user.username }} </label>
+				</h3>
+	        </a>
+	        <div class="media-body">
+	            <h4 class="rs pb10">
+	                    <label class="name">{{ user.last_name }}</label>
+	                    <label class="name">{{ user.first_name }}</label>
+	            </h4>
+	            <p class="rs">
+	                {{ user.address.city }}, FR
+	            </p>
+                <p class="rs fc-gray pb10">(<a href="#">0</a>) projets</p> <!-- A linker -->
+	            <p class="rs description">{{ user.profile.description }}</p>
+	    	</div>
+    	</div>
+    	<div class="action-user">
+	    	<a href="/member/messages/new_message?to={{ user.username }}">Envoyer un message</a>
+	    	<a href="#">Signaler l'utilisateur</a>
+	    </div>
+    </div>
+   </div>
+
+
+{% endblock content %}

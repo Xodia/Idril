@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+        {% extends "base/index.html" %}
+        {% load staticfiles %}
+
+    <title>Retour Paypal</title>
+</head>
+<body>{% block content %}
+
+
+    <p>  Transaction via Paypal effectuée !
+    </p>
+
+    <div class="container_12 clearfix">
+  <h2>Confirmation</h2>
+  <div class="login-form">
+  <table class="table table-condensed">
+    <caption>Paiement enregistré avec succès</caption>
+        <thead>
+        </thead>
+        <tbody>
+            <tr><th>Pseudo</th><td>{{ new_payment.user.username }}</td></tr>
+            <tr><th>Projet</th><td>{{ new_payment.project.title }}</td></tr>
+            <tr><th>Don</th><td>{{ new_payment.gift.name }}</td></tr>
+            <tr><th>Prix</th><td>{{ new_payment.price }} €</td></tr>
+        </tbody>
+    </table>
+  </div>
+</div>
+           <a href="/" class="btn btn-default btn-lg"  style="color: #FFFFFF;background-color: #04B7A6;border-color: #04B7A6;color: white; margin-bottom: 20px">Retour</a>
+
+
+    {% endblock %}
+</body>
+</html>

@@ -1,0 +1,16 @@
+{% extends "base/index.html" %}
+{% load staticfiles %}
+{% load sekizai_tags %}
+
+{% block title %}
+    <title>Projets</title>
+{% endblock title %}
+
+{% block content %}
+    <div class="container_12 clearfix">
+        <div class="create_required">
+            <p>Afin de créer un projet, merci de <a href="{% url 'member.views.member' %}">compléter votre profil</a>.</p>
+        </div>
+    </div>
+
+{% endblock content %}

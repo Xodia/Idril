@@ -1,0 +1,66 @@
+{% extends "base/index.html" %}
+{% load staticfiles %}
+{% block title %}
+    <title>Legal informations </title>
+{% endblock title %}
+{% block content %}
+
+       <div class="layout-2cols">
+        <div class="content grid_12">
+        <div class="panel panel-default" style="margin: 20px">
+            <div class="panel-heading">
+                <i class="fa fa-bell fa-fw"></i> Informations
+            </div>
+                        <!-- /.panel-heading -->
+            <div class="panel-body">
+
+                <h2>Pour recevoir les fonds, vous devez nous renseigner ces informations par mail a <a href="mailto:idril.eip@gmail.com">idril.eip@gmail.com</a></h2>
+
+                <div class="row">
+                <h3>Pour un particulier:</h3>
+                <ul style="text-align: justify; margin-left: 300px">
+                    <li>Adresse email</li>
+                    <li>Nom</li>
+                    <li>Prénom</li>
+                    <li>Pays de résidence</li>
+                    <li>Date d'anniversaire</li>
+                    <li>Nationalité</li>
+
+                    {% if category == 1 %}
+                        <li>Adresse</li>
+                        <li>Identifications (Photo recto/verso de la carte d'identité ou passeport)</li>
+                        <li>Occupation (Seulement les projets rassemblant plus de 15000euros)</li>
+                        <li>Déclaration des revenus (Seulement les projets rassemblant plus de 15000euros)</li>
+                    {% endif %}
+
+                </ul>
+                </div>
+                <div class="row">
+                <h3>Pour une organisation:</h3>
+                <ul style="text-align: justify; margin-left: 300px">
+                    <li>Nom de l'organisation</li>
+                    <li>Adresse mail de contact</li>
+                    <li>Prénom</li>
+                    <li>Nom, prenom, date de naissance et pays de residence du representant legal</li>
+
+                    {% if category == 1 %}
+                        <li>Adresse du siege social</li>
+                        <li>Email du representant legal</li>
+                        <li>ID de l'individu actant au nom de l'organisation (Passeport ou carte d'identitité recto/verso)</li>
+                        <li>Statuts de l'association</li>
+                        <li>Preuve de depot des statuts</li>
+                    {% endif %}
+                </ul>
+                </div>
+
+            </div>
+                        <!-- /.panel-body -->
+        </div>
+
+</div>
+                           <div class="clear"></div>
+
+    </div>
+                    <!-- /.panel -->
+{% endblock %}
+

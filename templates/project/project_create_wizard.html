@@ -1,0 +1,27 @@
+{% extends "base/index.html" %}
+{% load staticfiles %}
+{% load sekizai_tags %}
+
+{% block head_extra %}
+	{{ wizard.form.media }}
+    {% load url from future %}
+    <script src="{% url "tinymce-js" "project" %}"></script> {# Oblige de faire comme cela pour load proprement la config tinymce. Par la classe Media dans le forms.py ca ne fonctionne pas proprement (oblige de mettre une URL absolue).#}
+{% endblock head_extra %}
+
+{% block title %}
+    <title>Projets</title>
+{% endblock title %}
+
+{% block content %}
+    <p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
+    <form action="" method="post">{% csrf_token %}
+		{{ wizard.management_form }}
+		{% if wizard.form.forms %}
+		    {{ wizard.form.management_form }}
+		    {% for form in wizard.form.forms %}
+		        {{ form }}
+		    {% endfor %}
+		{% else %}
+		    {{ wizard.form }}
+		{% endif %}
+{% endblock content %}

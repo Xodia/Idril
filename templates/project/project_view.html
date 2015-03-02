@@ -1,0 +1,141 @@
+{% extends "base/index.html" %}
+{% load staticfiles %}
+
+{% block title %}
+<title>Projets</title>
+{% endblock title %}
+
+{% block content %}
+   <div class="container_12 clearfix">
+        <div class="content grid_9">
+            <div class="search-result-page">
+                <div class="list-project-in-category">
+                    <div class="lbl-type clearfix">
+                        <h4 class="rs title-lbl"><a href="#" class="be-fc-orange">Les derniers projets</a></h4>
+                        <a href="./category/{{ selected_category.id }}" class="view-all be-fc-orange">Tous les projets de cette catégorie ({{ nb_project_category }})</a>
+                    </div>
+                    <div class="list-project">
+                        {% for project in projects %}
+                        <div class="grid_3">
+                            <div class="project-short sml-thumb">
+                                <div class="top-project-info">
+                                    <div class="content-info-short clearfix">
+                                        <a href="./project_{{ project.id }}" class="thumb-img">
+                                            <img class="img-illust" src="{{MEDIA_URL}}/{{ project.header }}">
+                                        </a>
+                                        <div class="wrap-short-detail">
+                                            <h3 class="rs acticle-title"><a class="be-fc-orange" href="./project_{{ project.id }}">{{ project.title }}</a></h3>
+                                            <p class="rs tiny-desc">par <a href="#" class="fw-b fc-gray be-fc-orange">{{ project.user.last_name }} {{ project.user.first_name }}</a></p>
+                                            <p class="rs title-description">{{ project.short_description}}</p>
+                                           <!-- <p class="rs project-location">
+                                                <i class="icon iLocation"></i>
+                                                {{ project.user.address_set.city }}
+                                            </p>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bottom-project-info clearfix">
+                                    <div class="line-progress">
+                                        <div class="bg-progress">
+                                            <span  style="width: {{ project.get_percentage }}%"></span>
+                                        </div>
+                                    </div>
+                                    <div class="group-fee clearfix">
+                                        <div class="fee-item">
+                                            <p class="rs lbl">Financé</p>
+                                            <span class="val">{{ project.get_percentage|floatformat:0 }}%</span>
+                                        </div>
+                                        <div class="sep"></div>
+                                        <div class="fee-item">
+                                            <p class="rs lbl">Soutenue</p>
+                                            <span class="val">{{ project.get_funds_for_project|floatformat:0 }} €</span>
+                                        </div>
+                                        <div class="sep"></div>
+                                        <div class="fee-item">
+                                            <p class="rs lbl">Jours restant</p>
+                                            <span class="val">{{ project.get_days_left }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div><!--end: .grid_3 > .project-short-->
+                        {% endfor %}
+                        <div class="clear"></div>
+                    </div>
+                </div><!--end: .list-project-in-category -->
+                <p class="rs ta-c">
+                </p>
+            </div><!--end: .search-result-page -->
+        </div><!--end: .content -->
+        <div class="sidebar grid_3">
+                <h3 class="rs title-nav">Categories</h3>
+                <ul class="rs nav nav-category">
+                {% for category in categories %}
+                        <li>
+                             <form method="POST">
+                             {% csrf_token %}
+                                 <input type="hidden" name="selected_category" value="{{ category.name }}" />
+                                {% if category.name == selected_category.name %}
+                                    <button style="font-weight: bold; border:none;color: orangered;background-color: transparent;" value="{{ category.name }}" id="selected_category" class="active">{{ category.name }}</button>
+                                {% else %}
+                                    <button style="border:none;background-color: transparent;"  value="{{ category.name }}" id="selected_category">{{ category.name }}</button>
+                                {% endif %}
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+        </div><!--end: .sidebar -->
+        <div class="clear"></div>
+    </div>
+            <!-- Fin de la définition d'un projet -->
+
+<script>
+$( document ).ready(function()
+{
+    $( "#form-report" ).hide();
+    $("#report-confirmation").hide();
+});
+
+function report_message(id_message, author)
+{
+    $( "#form-report" ).dialog(
+    {
+        open: function()
+        {
+            $( this ).find("#reason").css("width", "570px");
+            $( this ).find("#reason").val("");
+        },
+        resizable: false,
+        height: 230,
+        width: 600,
+        modal: true,
+        buttons:
+        [{
+            text: "Annuler",
+            click: function()
+            {
+                $( this ).dialog( "close" );
+            }
+        },
+        {
+            text: "Signaler",
+            click: function()
+            {
+                var $this = $(this);
+                $.ajax(
+                     {
+                        url: 'report',
+                        type: 'get',
+                        data: {'message': id_message, 'reason': $(this).find("#reason").val()},
+                        success: function(data)
+                        {
+                            $("#report-confirmation").show();
+                            $this.dialog( "close" );
+                        },
+                    });
+            }
+        }]
+    });
+</script>
+{% endblock content %}

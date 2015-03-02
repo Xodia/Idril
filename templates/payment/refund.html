@@ -1,0 +1,18 @@
+{% extends "base/index.html" %}
+{% load staticfiles %}
+
+{% block title %}
+    <title>Projets</title>
+{% endblock title %}
+
+{% block content %}
+    <div id="page-wrapper">
+        <div class="row">
+             {% if res == True %}
+                 <h3>Votre paiement a bien été remboursé. Retrouver le montant de votre paiement dans votre panier et soutenez une autre projet Idril !</h3>
+             {% else %}
+                 <h3>Votre paiement n'a pas été remboursé. Vérifier que ce paiement ne vous a pas déjà rembourser. <a href="mailto:idril_eip@gmail.com">Contacter la team Idril ?</a></h3>
+             {% endif %}
+        </div>
+    </div>
+{% endblock %}

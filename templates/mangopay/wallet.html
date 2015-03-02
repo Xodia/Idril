@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% extends "base/index.html" %}
+    <title>Paiements</title>
+    <style>
+        th, td { padding: 5px; }
+        table { border-collapse: separate; border-spacing: 15px; }
+        table { border-collapse: collapse; border-spacing: 0; }
+        th, td { vertical-align: top; }
+        table { margin: 0 auto; }
+    </style>
+</head>
+<body>
+{% block content %}
+    <h1>Porte-feuille #{{ wallet.id }}</h1>
+    <div class="panel panel-default">
+
+    <div style="padding-bottom: 40px">
+        <h3>Porte-feuille: <span class="label label-success">{{ wallet.mangopay_id }}</span></h3>
+        <h3>Description: <span class="label label-default">{{ wallet_mango.Description }}</span></h3>
+        <h3>Balance du porte-feuille: <span class="label label-warning">{{ wallet.balance }} {{ wallet_mango.Currency }}</span></h3>
+        <h3>Détenteur: <a href="{% url 'member.views.profile_view' wallet.user.username %}"><span class="label label-primary">[{{ wallet.user.id }}]  |  {{ wallet.user.last_name }}  | {{ wallet.user.first_name }}  |  {{ wallet.user.email }}  </span></a></h3>
+
+        {% if wallet.type == 'PROJECT' %}
+        <h3>Projet: <a href="{% url 'project.views.details' wallet.project.id %}"> <span class="label label-info">[{{ wallet.project.id }}] |  {{ wallet.project.title }}</span></a></h3>
+        <!--<h3>Description projet: <span class="label label-default"> {{ wallet.project.content|striptags }}</span></h3>-->
+        <h3>Nombre de soutiens: <span class="label label-default">{{ nb_users }}0</span></h3>
+        <h3>Nombre de dons: <span class="label label-default">{{ nb_dons }}</span></h3>
+        <h3>Paiements: <span class="label label-danger"> <a style="color: #ffffff" href="/payment/list?project_id={{ wallet.project.id }}">Voir</a> </span></h3>
+        {% endif %}
+    </div>
+    </div>
+{% endblock %}
+</body>
+</html>

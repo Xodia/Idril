@@ -1,0 +1,153 @@
+
+
+
+
+#form a:hover
+{
+	color:#111;
+}
+
+#form .register
+{
+	position:absolute;
+	float:left;
+	margin:0;
+	line-height:30px;
+	top:-40px;
+	right:0;
+	font-size:13px;
+}
+
+#form p
+{
+	margin:.5em 25px;
+}
+
+#form .required_error
+{
+	display: inline
+}
+
+#form div
+{
+	margin:1.5em 20px;
+	padding:3px;
+	text-align:right;
+	position:relative;
+}
+
+#form #required
+{
+	color:red;
+}
+
+
+#form .field_name
+{
+	float:left;
+	line-height:30px;
+	padding-left:0px;
+}
+
+#form .field
+{
+	border:1px solid #ccc;
+	width:280px;
+	font-size:12px;
+	line-height:1em;
+	padding:4px;
+	-moz-box-shadow:inset 0 0 1px #ccc;
+	-webkit-box-shadow:inset 0 0 1px #ccc;
+	box-shadow:inset 0 0 1px #ccc;
+}	
+
+#form div.submit
+{
+	background:none;
+	text-align:left;
+}
+
+#form div.submit label
+{
+	float:none;
+	display:inline;
+	font-size:11px;
+}
+
+.submit
+{
+	border:0;
+	padding:0 30px;
+	height:30px;
+	line-height:30px;
+	text-align:center;
+	font-size:16px;
+	color:#fff;
+	background:rgba(0, 182, 169, 1);
+	cursor:pointer;
+}
+	
+#form .forgot
+{
+	text-align:right;
+	font-size:13px;
+}
+
+#form .back
+{
+	padding:1em 0;border-top:1px solid #eee;text-align:right;font-size:11px;
+}
+
+
+#form #password_change
+{
+	float:left;
+	padding-left: 20px;
+}
+
+#form #button-form
+{
+	text-align: right;
+	margin-top: 50px;
+}
+
+#form #button-form button
+{
+	margin-left: 20px;
+}
+
+#form .errorlist
+{
+	display: inline;
+}
+
+#form .errorlist li
+{
+	color: #F00;
+	width: 280px;
+	font-size: 12px;
+	position: absolute;
+	display: inline;
+	text-align: left;
+	float: right;
+	margin: 0;
+	padding: 5px;
+}
+
+#form .required
+{
+	color:red;
+}
+
+#form .info_field
+{
+	font-size:11px;
+	float:left;
+	padding-left: 20px;
+}
+
+.id_avatar
+{
+	
+}
+

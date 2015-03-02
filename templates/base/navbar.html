@@ -1,0 +1,53 @@
+{% load staticfiles %}
+{% load sekizai_tags %}
+
+<div class="container_12 clearfix">
+    <div class="grid_12 header-content">
+        <h1 id="logo" style="margin-top: -10px;">
+            <a href="/"><img style="width: 90px; height: 50px;" src="{% static 'base/logo.png' %}"
+                                      alt="$SITE_NAME"/></a>
+        </h1>
+
+
+        <div id="sys_header_right" class="header-right">
+            <div class="account-panel">
+                {% if user.is_authenticated %}
+                    <a href="/member" class="btn btn-white">Mon compte</a>
+                    <a href="/member/logout/" class="btn btn-white">Déconnexion</a>
+                     {% if user.is_staff %}
+                        <a href="/administration" class="btn btn-red">Admin</a>
+                    {% endif %}
+                {% else %}
+                    <a href="/member/register" class="btn btn-white">Créer un compte</a>
+                    <a href="/member/login" class="btn btn-white">Se connecter</a>
+                {% endif %}
+
+            </div>
+            <div class="form-search">
+                    <form method="GET" action="{% url 'project.views.list_projects' %}">
+                        <label for="sys_txt_keyword">
+                            <input name="s" class="txt-keyword" type="text" placeholder="Rechercher des projets"/>
+                        </label>
+                    </form>
+                </div>
+        </div>
+      <div class="header-left">
+            <div class="main-nav clearfix">
+                <div class="nav-item">
+                    <a href="/project" class="nav-title">Découvrir</a>
+
+                    <p class="rs nav-description">des projets</p>
+                </div>
+                <span class="sep"></span>
+
+                <div class="nav-item">
+                    <a href="/project/create" class="nav-title">Commencer</a>
+
+                    <p class="rs nav-description">Votre projet</p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

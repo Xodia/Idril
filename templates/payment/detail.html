@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% extends "base/index.html" %}
+    <title>Payment {{ payment.id }}</title>
+
+</head>
+<body>
+{% block content %}
+    <h1>Paiements {{ payment.id }}</h1><br/>
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row">
+                <h2>Paiement informations</h2><br/>
+                {% if form_payment.errors or messages %}
+                    <div class="alert alert-danger" role="alert">
+                        {% for field in form_payment %}
+                            {% if field.errors %}
+                                <b>{{ field.errors|striptags }}</b><br/>
+                            {% endif %}
+                        {% endfor %}
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <form method="post" action="" id="paiement">
+                    {% csrf_token %}
+                    <table class="table table-striped" width=300 height=100>
+                        {% for field in form_payment %}
+                            <div class="fieldWrapper">
+                                <tr>
+                                    <td align="left">{{ field.label_tag }}</td>
+                                    <td align="left"> {{ field }}</td>
+                                </tr>
+                            </div>
+                        {% endfor %}
+
+                    </table>
+                    <button type="submit" name="paiement" class="btn btn-primary"
+                            style="background-color: #04B7A6;border-color: #04B7A6">Save
+                    </button>
+                    <input type=button class="btn" value="Back" style="color: #FFFFFF"
+                           onClick="javascript:history.go(-1);">
+                </form>
+                <h2 style="padding-top: 30px">{{ payment.payment_type }} informations</h2><br/>
+                {% if form.errors or messages %}
+                    <div class="alert alert-danger" role="alert">
+                        {% for field in form %}
+                            {% if field.errors %}
+                                <b>{{ field.errors|striptags }}</b><br/>
+                            {% endif %}
+                        {% endfor %}
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <form method="post" action="" style="padding-top: 5px" id="infos">
+                    {% csrf_token %}
+                    <table class="table table-striped" width=300 height=100>
+
+                        {% for field in form %}
+                            <div class="fieldWrapper">
+                                <tr>
+                                    <td align="left">{{ field.label_tag }}</td>
+                                    <td align="left"> {{ field }}</td>
+                                </tr>
+                            </div>
+                        {% endfor %}
+
+                    </table>
+                    <button type="submit" name="infos" class="btn btn-primary"
+                            style="background-color: #04B7A6;border-color: #04B7A6">Save
+                    </button>
+                    <input type=button class="btn" value="Back" style="color: #FFFFFF"
+                           onClick="javascript:history.go(-1);">
+                </form>
+            </div>
+        </div>
+        {{ form.errors }}
+        {{ form.non_field_errors }}
+    </div>
+{% endblock %}
+
+</body>
+</html>

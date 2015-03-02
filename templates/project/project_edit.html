@@ -1,0 +1,101 @@
+{% extends "base/index.html" %}
+{% load staticfiles %}
+{% load sekizai_tags %}
+    
+{% block head_extra %}
+    <script src="/static/project/js/tinymce/tinymce.min.js"></script>
+{% endblock head_extra %}
+
+{% block title %}
+<title>Projets</title>
+{% endblock title %}
+
+{% block content %}
+<script>
+    tinymce.init({
+        selector: '#id_content',
+    });
+</script>
+
+<div class="container_12 clearfix start-project">
+    <label class="step-title">MODIFIER PROJET</label><label class="step-detail">- {{ project.title }}</label>
+        <form action="" method="post" class="form form-start-project" enctype="multipart/form-data">{% csrf_token %}
+            <div class="panel panel-default" style="padding-top: 20px">
+                <div class="row-item clearfix">
+                    <div class="col-md-2 text-right">
+                        <label class="label-project" for="txt_last_name">DESCRIPTION</label><span class="mandatory-field">*</span>
+                    </div>
+                    <div class="col-md-9 text-left">
+                        {{ form.content }}
+                    </div>
+                </div>
+
+                <div class="row-item clearfix">
+                    <div class="col-md-2 text-right">
+                        <label class="label-project" for="txt_last_name">DESCRIPTION COURTE</label><span class="mandatory-field">*</span>
+                    </div>
+                    <div class="col-md-9 text-left">
+                        {{ form.short_description }}
+                    </div>
+                </div>
+                
+                 <div class="row-item clearfix">
+                    <div class="col-md-2 text-right">
+                        <label class="label-project" for="txt_last_name">IMAGE D'EN TETE</label><span class="mandatory-field">*</span>
+                    </div>
+                    <div class="col-md-3 text-left">
+                        <div class="btn btn-white upload-button">
+                            <span>Ajouter une image</span>
+                        </div>
+                       {{ form.header }}
+                        <div class="col-md-8 text-center">
+                            {{ project_form.header.errors }}
+                        </div>
+                    </div>
+                    <div class="col-md-7 text-left">
+                            <img id="project-img" src="{{ MEDIA_URL }}/{{ project.header }}" alt="" width="200" height="150" />
+                            <a id="delete-project-img" href="#" style="display:none;">Supprimer</a>
+                    </div>
+                    <div>
+                        <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" id="projectImg">
+                    </div>
+                </div>
+            </div>
+                <div class="row" style="padding-bottom:20px;">
+                    <button type="submit" class="btn btn-white">Soumettre le projet</button>
+                </div>
+        </form>
+</div>
+
+<script type="text/javascript">
+$('.upload-button').click(function()
+{
+    $('#inputProjectImg').trigger('click');
+});
+
+function readURL(input)
+{
+    if (input.files && input.files[0])
+    {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#project-img').attr('src', e.target.result);
+            $("#delete-project-img").show();
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$("#inputProjectImg").change(function()
+{
+    readURL(this);
+});
+
+$("#delete-project-img").click(function(event)
+{
+    $('#project-img').attr('src', '');
+    $(this).hide();
+});
+</script>
+{% endblock content %}

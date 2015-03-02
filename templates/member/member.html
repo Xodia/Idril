@@ -1,0 +1,50 @@
+{% extends "base/index.html" %}
+{% load staticfiles %}
+
+{% block css %}
+{{ block.super }}
+    <link rel="stylesheet" href="{% static "member/member.css" %}">
+    <link rel="stylesheet" href="{% static "member/forms.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "member/css/datepicker/datepicker.css" %}">
+{% endblock css %}
+
+{% block script %}
+{{ block.super }}
+<script src="{% static "member/js/datepicker/bootstrap-datepicker.js" %}"></script>
+<script>
+    $(function () {
+           $('#id_birth_date').datepicker({format: "dd/mm/yyyy", endDate: "+Infinity"});
+    });
+</script>
+{% endblock script %}
+
+{% block content %}
+<div class="container_12 clearfix">
+    <div class="content grid_12">
+        <div class="project-detail">
+            <div class="project-tab-detail tabbable accordion">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#"><span class="glyphicon glyphicon-user"></span> Profil</a></li>
+                    <li><a href="#" class="be-fc-orange"><span class="glyphicon glyphicon-book"></span> Résumé</a></li>
+                    <li><a href="#" class="be-fc-orange"><span class="glyphicon glyphicon-envelope"></span> Messages</a></li>
+                    <li><a href="#" class="be-fc-orange"><span class="glyphicon glyphicon-list-alt"></span> Projets</a></li>
+                    <li><a href="#" class="be-fc-orange"><span class="glyphicon glyphicon-envelope"></span> Paiements</a></li>
+                </ul>
+                <div class="tab-content">
+                    {% block tab-content %}
+                    {% include "member/profile.html" %}
+                    {% include "member/resume.html" %}
+                    {% include "member/messages.html" %}
+                    {% include "member/projects.html" %}
+                    {% include "member/payments.html" %}
+                    {% include "member/notifications.html" %}
+                    {% endblock tab-content %}
+                </div>
+            </div>
+        </div>
+    </div>  
+<div class="clear"></div>
+</div>
+{% endblock content %}
+
+

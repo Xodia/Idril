@@ -1,0 +1,37 @@
+{% extends "member/member.html" %}
+{% load staticfiles %}
+{% load sekizai_tags %}
+
+{% block title %}
+<title>Espace membre</title>
+{% endblock title %}
+
+{% block content %}
+<div class="container_12 clearfix">
+    <div class="login-form">
+    <br>
+    <h2>SE CONNECTER</h2>
+    <br>
+        {% if error == True %}
+        <p id="error_msg">{{ error_message }}</p>
+        {% elif success == True %}
+        <p id="success_msg">{{ success_message }}</p>
+        {% endif %}
+        <form class="form" action="/member/auth/" method="POST">
+            {% csrf_token %}
+            <div class="row-item clearfix">
+                <input type="text" name="username" placeholder="NOM D'UTILISATEUR" class="txt txt-login" title="Nom d'utilisateur" />
+            </div>
+            <div class="row-item clearfix">
+                <input type="password" name="password" placeholder="MOT DE PASSE" class="txt txt-login" title="Mot de passe" />
+            </div>			
+            <button class="btn btn-white btn-login" type="submit">Se connecter</button> 
+            <br>             
+            <a href="/member/password/reset/" class="forgot-pwd">Mot de passe oublié ?</a>
+            <div class="already-account">
+                <p>Pas encore inscrit ? <a href="/member/register">Cliquez ici</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
